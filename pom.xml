@@ -33,7 +33,7 @@
         <!-- coverage report -->
         <jacoco.version>0.8.5</jacoco.version>
         <!-- various -->
-        <jwt.version>3.4.1</jwt.version>
+        <jwt.version>3.12.0</jwt.version>
         <itextpdf.version>7.0.2</itextpdf.version>
         <openapi.version>1.4.8</openapi.version>
     </properties>

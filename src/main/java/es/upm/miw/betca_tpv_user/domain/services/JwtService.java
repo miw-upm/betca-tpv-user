@@ -22,7 +22,7 @@ public class JwtService {
     private int expire;
 
     @Autowired
-    public JwtService(@Value("miw.jwt.secret") String secret, @Value("miw.jwt.issuer") String issuer,
+    public JwtService(@Value("${miw.jwt.secret}") String secret, @Value("${miw.jwt.issuer}") String issuer,
                       @Value("${miw.jwt.expire}") int expire) {
         this.secret = secret;
         this.issuer = issuer;
@@ -47,6 +47,7 @@ public class JwtService {
                 .withClaim(NAME_CLAIM, name)
                 .withClaim(ROLE_CLAIM, role)
                 .sign(Algorithm.HMAC256(this.secret));
+
     }
 
     public String user(String authorization) {
