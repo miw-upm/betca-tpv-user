@@ -4,6 +4,7 @@ import es.upm.miw.betca_tpv_user.domain.exceptions.BadRequestException;
 import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
 import es.upm.miw.betca_tpv_user.domain.exceptions.ForbiddenException;
 import es.upm.miw.betca_tpv_user.domain.exceptions.NotFoundException;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,12 +16,11 @@ public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({
-            UnauthorizedException.class,
             org.springframework.security.access.AccessDeniedException.class
     })
     @ResponseBody
-    public void unauthorizedRequest() {
-        //Empty. Nothing to do
+    public void unauthorizedRequest(Exception exception) {
+        LogManager.getLogger(this.getClass()).debug(() -> "Unauthorized: " + exception.getMessage());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -70,7 +70,7 @@ public class ApiExceptionHandler {
     })
     @ResponseBody
     public ErrorMessage exception(Exception exception) { // The error must be corrected
-        exception.printStackTrace();
+        exception.printStackTrace(); // it helps to debugging
         return new ErrorMessage(exception, HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 

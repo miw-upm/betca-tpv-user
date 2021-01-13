@@ -124,6 +124,14 @@ class UserResourceIT {
     }
 
     @Test
+    void testReadAllCustomer() {
+        this.restClientTestService.loginCustomer(this.webTestClient)
+                .get().uri(USERS)
+                .exchange()
+                .expectStatus().isUnauthorized();
+    }
+
+    @Test
     void testSearch() {
         this.restClientTestService.loginOperator(this.webTestClient)
                 .get()

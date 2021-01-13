@@ -1,10 +1,8 @@
 package es.upm.miw.betca_tpv_user.api.resources;
 
 import es.upm.miw.betca_tpv_user.api.dtos.TokenDto;
-import es.upm.miw.betca_tpv_user.api.http_errors.UnauthorizedException;
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.domain.services.JwtService;
-import org.apache.logging.log4j.LogManager;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +19,7 @@ public class RestClientTestService {
     private String token;
 
     private boolean isRole(Role role) {
-        try {
-            return this.token != null && jwtService.role(token).equals(role.name());
-        } catch (UnauthorizedException e) {
-            LogManager.getLogger(this.getClass()).error("------- is role exception: " + role);
-        }
-        return false;
+        return this.token != null && jwtService.role(token).equals(role.name());
     }
 
     private WebTestClient login(Role role, String mobile, WebTestClient webTestClient) {

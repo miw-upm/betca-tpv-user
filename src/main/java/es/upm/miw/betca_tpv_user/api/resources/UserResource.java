@@ -2,7 +2,6 @@ package es.upm.miw.betca_tpv_user.api.resources;
 
 import es.upm.miw.betca_tpv_user.api.dtos.TokenDto;
 import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
-import es.upm.miw.betca_tpv_user.api.http_errors.UnauthorizedException;
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.domain.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -78,10 +77,7 @@ public class UserResource {
     private Role extractRoleClaims() {
         List< String > roleClaims = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        if (roleClaims.size() != 1) {
-            throw new UnauthorizedException("User must have a role: " + roleClaims.toString());
-        }
-        return Role.of(roleClaims.get(0));
+        return Role.of(roleClaims.get(0));  // it must only be a role
     }
 
 }

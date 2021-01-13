@@ -52,7 +52,7 @@ public class UserService {
         } else if (Role.OPERATOR.equals(roleClaim)) {
             return List.of(Role.CUSTOMER);
         } else {
-            throw new ForbiddenException("Insufficient role to create users");
+            return List.of();
         }
     }
 
