@@ -21,6 +21,8 @@ jobs:
           java-version: 11
       - name: Unit & Integration
         run: mvn -B verify
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - name: Sonar
         if: success() # always() failure() success()
         run: >
