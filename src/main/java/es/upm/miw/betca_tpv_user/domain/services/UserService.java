@@ -49,7 +49,7 @@ public class UserService {
             return List.of(Role.ADMIN, Role.MANAGER, Role.OPERATOR, Role.CUSTOMER);
         } else if (Role.MANAGER.equals(roleClaim)) {
             return List.of(Role.MANAGER, Role.OPERATOR, Role.CUSTOMER);
-        } else if (Role.OPERATOR.equals(roleClaim)) {
+        } else if (Role.OPERATOR.equals(roleClaim) || Role.CUSTOMER.equals(roleClaim)) {
             return List.of(Role.CUSTOMER);
         } else {
             return List.of();
