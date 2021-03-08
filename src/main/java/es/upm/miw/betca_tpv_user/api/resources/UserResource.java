@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 @RequestMapping(UserResource.USERS)
 public class UserResource {
     public static final String USERS = "/users";
-
+    public static final String CUSTOMERS = "/customers";
     public static final String TOKEN = "/token";
     public static final String MOBILE_ID = "/{mobile}";
     public static final String SEARCH = "/search";
@@ -48,6 +48,15 @@ public class UserResource {
     @PostMapping
     public void createUser(@Valid @RequestBody UserDto creationUserDto) {
         this.userService.createUser(creationUserDto.toUser(), this.extractRoleClaims());
+    }
+
+    @PreAuthorize("permitAll()")
+    @PostMapping(value = CUSTOMERS)
+    public void registerUser(@Valid @RequestBody UserDto creationUserDto) {
+        creationUserDto.doDefault();
+        if (creationUserDto.getRole().equals(Role.CUSTOMER)){
+            this.userService.createUser(creationUserDto.toUser(), Role.CUSTOMER);
+        }
     }
 
     @SecurityRequirement(name = "bearerAuth")
@@ -77,6 +86,7 @@ public class UserResource {
     private Role extractRoleClaims() {
         List< String > roleClaims = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        System.out.println(roleClaims);
         return Role.of(roleClaims.get(0));  // it must only be a role
     }
 
