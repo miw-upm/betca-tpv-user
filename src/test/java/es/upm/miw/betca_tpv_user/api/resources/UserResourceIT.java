@@ -118,7 +118,7 @@ class UserResourceIT {
                 .uri(uriBuilder -> uriBuilder
                         .path(USERS + CUSTOMERS)
                         .build())
-                .body(Mono.just(UserDto.builder().mobile("123456789").firstName("Hector").familyName("family")
+                .body(Mono.just(UserDto.builder().mobile("123456787").firstName("Hector").familyName("family")
                         .address("address").password("123").dni("dni").email("email@gmail.com").build()), UserDto.class)
                 .exchange().expectStatus().isOk();
     }
