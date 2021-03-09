@@ -1,5 +1,6 @@
 package es.upm.miw.betca_tpv_user.data.daos;
 
+import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.data.model.User;
 import org.apache.logging.log4j.LogManager;
@@ -56,6 +57,8 @@ public class UserSeederDev {
                 User.builder().mobile("666666005").firstName("c3").password(pass).role(Role.CUSTOMER)
                         .registrationDate(LocalDateTime.now()).active(true).build(),
                 User.builder().mobile("66").firstName("customer").password(pass).role(Role.CUSTOMER)
+                        .registrationDate(LocalDateTime.now()).active(true).build(),
+                User.builder().mobile("123456788").firstName("Hector").password(new BCryptPasswordEncoder().encode("123")).role(Role.CUSTOMER)
                         .registrationDate(LocalDateTime.now()).active(true).build(),
         };
         this.userRepository.saveAll(Arrays.asList(users));

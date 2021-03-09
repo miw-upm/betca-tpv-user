@@ -124,37 +124,56 @@ class UserResourceIT {
     }
 
     @Test
-    void testReadAllOperator() {
-        this.restClientTestService.loginOperator(this.webTestClient)
-                .get().uri(USERS)
-                .exchange().expectStatus().isOk()
-                .expectBodyList(UserDto.class)
-                .value(users -> assertTrue(users.stream().noneMatch(user -> "admin".equals(user.getFirstName()))))
-                .value(users -> assertTrue(users.stream().noneMatch(user -> "man".equals(user.getFirstName()))))
-                .value(users -> assertTrue(users.stream().noneMatch(user -> "ope".equals(user.getFirstName()))))
-                .value(users -> assertTrue(users.stream().anyMatch(user -> "c1".equals(user.getFirstName()))));
-    }
+    void testUpdateUser() {
+        WebTestClient webTestClient = this.restClientTestService.loginOperator(this.webTestClient);
 
-    @Test
-    void testReadAllCustomer() {
-        this.restClientTestService.loginCustomer(this.webTestClient)
-                .get().uri(USERS)
-                .exchange()
-                .expectStatus().isUnauthorized();
-    }
+        webTestClient
+                .put()
+                .uri(USERS + MOBILE_ID, "123456788")
+                .body(Mono.just(UserDto.builder().mobile("123456789").firstName("Pablo").familyName("family")
+                        .address("address").password("123").dni("dni").email("email@gmail.com").build()), UserDto.class)
+                .exchange().expectStatus().isOk();
 
-    @Test
-    void testSearch() {
-        this.restClientTestService.loginOperator(this.webTestClient)
+        webTestClient
                 .get()
-                .uri(uriBuilder -> uriBuilder
-                        .path(USERS + SEARCH)
-                        .queryParam("mobile", "6")
-                        .queryParam("firstName", "c")
-                        .queryParam("dni", "e").build())
+                .uri(USERS + MOBILE_ID, "123456789")
                 .exchange().expectStatus().isOk()
-                .expectBodyList(UserDto.class)
-                .value(users -> assertTrue(users.stream().anyMatch(user -> "c1".equals(user.getFirstName()))));
+                .expectBody(UserDto.class)
+                .value(user -> assertEquals("Pablo", user.getFirstName()));
     }
 
-}
+        @Test
+        void testReadAllOperator () {
+            this.restClientTestService.loginOperator(this.webTestClient)
+                    .get().uri(USERS)
+                    .exchange().expectStatus().isOk()
+                    .expectBodyList(UserDto.class)
+                    .value(users -> assertTrue(users.stream().noneMatch(user -> "admin".equals(user.getFirstName()))))
+                    .value(users -> assertTrue(users.stream().noneMatch(user -> "man".equals(user.getFirstName()))))
+                    .value(users -> assertTrue(users.stream().noneMatch(user -> "ope".equals(user.getFirstName()))))
+                    .value(users -> assertTrue(users.stream().anyMatch(user -> "c1".equals(user.getFirstName()))));
+        }
+
+        @Test
+        void testReadAllCustomer () {
+            this.restClientTestService.loginCustomer(this.webTestClient)
+                    .get().uri(USERS)
+                    .exchange()
+                    .expectStatus().isUnauthorized();
+        }
+
+        @Test
+        void testSearch () {
+            this.restClientTestService.loginOperator(this.webTestClient)
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .path(USERS + SEARCH)
+                            .queryParam("mobile", "6")
+                            .queryParam("firstName", "c")
+                            .queryParam("dni", "e").build())
+                    .exchange().expectStatus().isOk()
+                    .expectBodyList(UserDto.class)
+                    .value(users -> assertTrue(users.stream().anyMatch(user -> "c1".equals(user.getFirstName()))));
+        }
+
+    }
