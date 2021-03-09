@@ -59,6 +59,14 @@ public class UserResource {
         }
     }
 
+    @PreAuthorize("authenticated")
+    @SecurityRequirement(name = "barerAuth")
+    @PutMapping(MOBILE_ID)
+    public void updateUser(@Valid @RequestBody UserDto updateUserDto, @PathVariable String mobile) {
+        //TODO validar campos del dto
+        this.userService.updateUser(mobile, updateUserDto.toUser());
+    }
+
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping(MOBILE_ID)
     public UserDto readUser(@PathVariable String mobile) {

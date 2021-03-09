@@ -6,6 +6,7 @@ import es.upm.miw.betca_tpv_user.data.model.User;
 import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
 import es.upm.miw.betca_tpv_user.domain.exceptions.ForbiddenException;
 import es.upm.miw.betca_tpv_user.domain.exceptions.NotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public Optional< String > login(String mobile) {
+    public Optional<String> login(String mobile) {
         return this.userRepository.findByMobile(mobile)
                 .map(user -> jwtService.createToken(user.getMobile(), user.getFirstName(), user.getRole().name()));
     }
@@ -40,11 +41,19 @@ public class UserService {
         this.userRepository.save(user);
     }
 
-    public Stream< User > readAll(Role roleClaim) {
+    public void updateUser(String mobile, User user) {
+        User oldUser = this.userRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
+        user.setRegistrationDate(LocalDateTime.now());
+        user.setId(oldUser.getId());
+        BeanUtils.copyProperties(user, oldUser);
+        System.out.println(">>>>>>>>>>>>" + this.userRepository.save(oldUser));
+    }
+
+    public Stream<User> readAll(Role roleClaim) {
         return this.userRepository.findByRoleIn(authorizedRoles(roleClaim)).stream();
     }
 
-    private List< Role > authorizedRoles(Role roleClaim) {
+    private List<Role> authorizedRoles(Role roleClaim) {
         if (Role.ADMIN.equals(roleClaim)) {
             return List.of(Role.ADMIN, Role.MANAGER, Role.OPERATOR, Role.CUSTOMER);
         } else if (Role.MANAGER.equals(roleClaim)) {
@@ -62,7 +71,7 @@ public class UserService {
         }
     }
 
-    public Stream< User > findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
+    public Stream<User> findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
             String mobile, String firstName, String familyName, String email, String dni, Role roleClaim) {
         return this.userRepository.findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
                 mobile, firstName, familyName, email, dni, this.authorizedRoles(roleClaim)
