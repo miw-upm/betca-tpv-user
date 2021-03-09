@@ -59,8 +59,8 @@ public class UserResource {
         }
     }
 
-    @PreAuthorize("authenticated")
     @SecurityRequirement(name = "barerAuth")
+    @PreAuthorize("authenticated")
     @PutMapping(MOBILE_ID)
     public void updateUser(@Valid @RequestBody UserDto updateUserDto, @PathVariable String mobile) {
         //TODO validar campos del dto
@@ -68,8 +68,10 @@ public class UserResource {
     }
 
     @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("authenticated")
     @GetMapping(MOBILE_ID)
     public UserDto readUser(@PathVariable String mobile) {
+        //TODO Preguntar como restringir que un customer solo pueda leer su perfil y el admin cualquier perfil
         return new UserDto(this.userService.readByMobile(mobile));
     }
 
