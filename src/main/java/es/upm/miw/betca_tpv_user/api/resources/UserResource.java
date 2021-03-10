@@ -63,7 +63,6 @@ public class UserResource {
     @PreAuthorize("authenticated")
     @PutMapping(MOBILE_ID)
     public void updateUser(@Valid @RequestBody UserDto updateUserDto, @PathVariable String mobile) {
-        //TODO validar campos del dto
         this.userService.updateUser(mobile, updateUserDto.toUser());
     }
 
