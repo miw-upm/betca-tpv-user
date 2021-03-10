@@ -43,9 +43,7 @@ public class UserService {
 
     public void updateUser(String mobile, User user) {
         User oldUser = this.userRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
-        user.setId(oldUser.getId());
-        user.setPassword(oldUser.getPassword());
-        BeanUtils.copyProperties(user, oldUser);
+        BeanUtils.copyProperties(user, oldUser, "id", "password", "registrationDate", "active");
         this.userRepository.save(oldUser);
     }
 
