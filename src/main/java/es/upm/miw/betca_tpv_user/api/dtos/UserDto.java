@@ -13,9 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,7 +25,7 @@ import java.util.UUID;
 public class UserDto {
     @NotNull
     @NotBlank
-    @Pattern(regexp = Validations.NINE_DIGITS)
+    @Pattern(regexp = Validations.ONE_DIGIT)
     private String mobile;
     @NotNull
     @NotBlank
