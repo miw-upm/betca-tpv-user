@@ -3,10 +3,17 @@ package es.upm.miw.betca_tpv_user.api.resources;
 import es.upm.miw.betca_tpv_user.api.dtos.TokenDto;
 import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
+import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
+import es.upm.miw.betca_tpv_user.domain.exceptions.ForbiddenException;
+import es.upm.miw.betca_tpv_user.domain.exceptions.NotFoundException;
+import es.upm.miw.betca_tpv_user.domain.services.JwtService;
 import es.upm.miw.betca_tpv_user.domain.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,15 +32,18 @@ import java.util.stream.Stream;
 public class UserResource {
     public static final String USERS = "/users";
     public static final String CUSTOMERS = "/customers";
+    public static final String PROFILE = "/profile";
     public static final String TOKEN = "/token";
     public static final String MOBILE_ID = "/{mobile}";
     public static final String SEARCH = "/search";
 
     private UserService userService;
+    private JwtService jwtService;
 
     @Autowired
-    public UserResource(UserService userService) {
+    public UserResource(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     @SecurityRequirement(name = "basicAuth")
@@ -67,10 +77,19 @@ public class UserResource {
     }
 
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("authenticated")
     @GetMapping(MOBILE_ID)
     public UserDto readUser(@PathVariable String mobile) {
-        //TODO Preguntar como restringir que un customer solo pueda leer su perfil y el admin cualquier perfil
+        return new UserDto(this.userService.readByMobile(mobile));
+    }
+
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("authenticated")
+    @GetMapping(PROFILE + MOBILE_ID)
+    public UserDto readUserProfile(@PathVariable String mobile, @RequestHeader("Authorization") String token) {
+        String extractedToken = this.jwtService.extractToken(token);
+        if (!this.jwtService.user(extractedToken).equals(mobile)) {
+            throw new ForbiddenException("You don't have access");
+        }
         return new UserDto(this.userService.readByMobile(mobile));
     }
 
