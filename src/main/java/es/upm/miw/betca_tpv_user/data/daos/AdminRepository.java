@@ -4,20 +4,15 @@ import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.data.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface AdminRepository extends JpaRepository< User, Integer > {
 
 
-    Optional<User> readByMobile (String mobile);
-
-    Optional <User> update(String mobile, User user);
-
+    Optional<User> findByMobile (String mobile);
 
     @Query("select u from User u where " +
             "(?1 is null or u.mobile like concat('%',?1,'%')) and " +

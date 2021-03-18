@@ -25,7 +25,7 @@ import java.util.UUID;
 public class UserDto {
     @NotNull
     @NotBlank
-    @Pattern(regexp = Validations.ONE_DIGIT)
+    //@Pattern(regexp = Validations.ONE_DIGIT)
     private String mobile;
     @NotNull
     @NotBlank
@@ -47,6 +47,27 @@ public class UserDto {
     public static UserDto ofMobileFirstName(User user) {
         return UserDto.builder().mobile(user.getMobile()).firstName(user.getFirstName()).build();
     }
+
+    /*
+    public static UserDto ofMobileFirstNameRole(User user) {
+        return UserDto.builder().mobile(user.getMobile()).firstName(user.getFirstName()).role(user.getRole()).build();
+    }*/
+
+    public static UserDto ofUser(User user){
+        return UserDto.builder()
+                .mobile(user.getMobile())
+                .firstName(user.getFirstName())
+                .familyName(user.getFamilyName())
+                .dni(user.getDni())
+                .email(user.getEmail())
+                .address(user.getAddress())
+                .password(user.getPassword())
+                .active(user.getActive())
+                .role(user.getRole())
+                .registrationDate(user.getRegistrationDate())
+                .build();
+    }
+
 
     public void doDefault() {
         if (Objects.isNull(password)) {
