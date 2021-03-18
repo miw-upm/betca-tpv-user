@@ -29,10 +29,9 @@ public class AdminResource {
         this.adminService = adminService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @SecurityRequirement(name = "bearerAuth")
-    @PostMapping
+    @PostMapping(produces = {"application/json"})
     public void create(@Valid @RequestBody UserDto creationUserDto) {
+        creationUserDto.doDefault();
         this.adminService.create(creationUserDto.toUser());
     }
 
@@ -68,12 +67,17 @@ public class AdminResource {
         return new UserDto(this.adminService.readByMobile(mobile));
     }
 
-
-    private Role extractRoleClaims() {
-        List< String > roleClaims = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        System.out.println(roleClaims);
-        return Role.of(roleClaims.get(0));  // it must only be a role
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("authenticated")
+    @DeleteMapping(MOBILE_ID)
+    public void delete(@PathVariable String mobile){
+        this.adminService.delete(this.adminService.readByMobile(mobile));
     }
+
+
+
+
+
+
 
 }

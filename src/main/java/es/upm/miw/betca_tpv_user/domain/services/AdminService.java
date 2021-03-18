@@ -31,9 +31,7 @@ public class AdminService {
     }
 
     public User readByMobile(String mobile){
-
         return this.adminRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
-
     }
 
 
@@ -41,7 +39,10 @@ public class AdminService {
         User oldUser = this.adminRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
         BeanUtils.copyProperties(user, oldUser, "id", "password", "registrationDate", "active");
         this.adminRepository.save(oldUser);
+    }
 
+    public void delete(User user){
+        this.adminRepository.delete(user);
     }
 
 }
