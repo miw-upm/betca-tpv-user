@@ -20,6 +20,8 @@ import java.util.stream.Stream;
 public class AdminResource {
     public static final String ADMIN = "/users-admin";
     public static final String MOBILE_ID = "/{mobile}";
+    public static final String ROLE = "/{role}";
+
 
 
     private AdminService adminService;
@@ -29,13 +31,22 @@ public class AdminResource {
         this.adminService = adminService;
     }
 
-    @PostMapping(produces = {"application/json"})
-    public void create(@Valid @RequestBody UserDto creationUserDto) {
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
+    @PostMapping(value = ROLE)
+    public void create(@Valid @RequestBody UserDto creationUserDto, @PathVariable Role role) {
         creationUserDto.doDefault();
         this.adminService.create(creationUserDto.toUser());
     }
 
     /*
+    @PostMapping(produces = {"application/json"})
+    public void register(@Valid @RequestBody UserDto creationUserDto){
+        creationUserDto.doDefault();
+        this.adminService.create(creationUserDto.toUser());
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping
@@ -64,11 +75,12 @@ public class AdminResource {
     @PreAuthorize("authenticated")
     @GetMapping(MOBILE_ID)
     public UserDto readUser(@PathVariable String mobile) {
+
         return new UserDto(this.adminService.readByMobile(mobile));
     }
 
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("authenticated")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(MOBILE_ID)
     public void delete(@PathVariable String mobile){
         this.adminService.delete(this.adminService.readByMobile(mobile));

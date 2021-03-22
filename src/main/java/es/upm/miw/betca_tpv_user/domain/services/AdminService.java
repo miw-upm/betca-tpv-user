@@ -37,7 +37,7 @@ public class AdminService {
 
     public void update(String mobile, User user){
         User oldUser = this.adminRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
-        BeanUtils.copyProperties(user, oldUser, "id", "password", "registrationDate", "active");
+        BeanUtils.copyProperties(user, oldUser, "id", "password", "registrationDate");
         this.adminRepository.save(oldUser);
     }
 
