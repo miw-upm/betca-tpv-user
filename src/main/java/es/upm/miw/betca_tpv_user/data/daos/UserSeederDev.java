@@ -58,7 +58,7 @@ public class UserSeederDev {
                         .registrationDate(LocalDateTime.now()).active(true).build(),
                 User.builder().mobile("66").firstName("customer").password(pass).role(Role.CUSTOMER)
                         .registrationDate(LocalDateTime.now()).active(true).build(),
-                User.builder().mobile("123456788").firstName("Hector").password(new BCryptPasswordEncoder().encode("123")).role(Role.CUSTOMER)
+                User.builder().mobile("123456788").firstName("Hector").password(pass).role(Role.CUSTOMER)
                         .registrationDate(LocalDateTime.now()).active(true).build(),
         };
         this.userRepository.saveAll(Arrays.asList(users));

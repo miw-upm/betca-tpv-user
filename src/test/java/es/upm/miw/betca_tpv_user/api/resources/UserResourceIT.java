@@ -43,13 +43,28 @@ class UserResourceIT {
                 .exchange().expectStatus().isNotFound();
     }
 
-    //TODO Descomentar
-    /*@Test
+    @Test
     void testReadUserForbidden() {
         this.restClientTestService.loginCustomer(this.webTestClient)
                 .get().uri(USERS + MOBILE_ID, "999666999")
                 .exchange().expectStatus().isUnauthorized();
-    }*/
+    }
+
+    @Test
+    void testReadUserProfile() {
+        this.restClientTestService.loginAdmin(this.webTestClient)
+                .get().uri(USERS + PROFILE + MOBILE_ID, "6")
+                .exchange().expectStatus().isOk()
+                .expectBody(UserDto.class)
+                .value(user -> assertEquals("admin", user.getFirstName()));
+    }
+
+    @Test
+    void testReadUserProfileForbidden() {
+        this.restClientTestService.loginCustomer(this.webTestClient)
+                .get().uri(USERS + PROFILE + MOBILE_ID, "111111111")
+                .exchange().expectStatus().isForbidden();
+    }
 
     @Test
     void testCreateUser() {
@@ -131,13 +146,13 @@ class UserResourceIT {
         webTestClient
                 .put()
                 .uri(USERS + MOBILE_ID, "123456788")
-                .body(Mono.just(UserDto.builder().mobile("123456789").firstName("Pablo").familyName("family")
-                        .address("address").password("123").dni("dni").email("email@gmail.com").build()), UserDto.class)
+                .body(Mono.just(UserDto.builder().mobile("123456788").firstName("Pablo").familyName("family")
+                        .address("address").password("6").dni("dni").email("email@gmail.com").build()), UserDto.class)
                 .exchange().expectStatus().isOk();
 
-        webTestClient
+        this.restClientTestService.login("123456788", this.webTestClient)
                 .get()
-                .uri(USERS + MOBILE_ID, "123456789")
+                .uri(USERS + PROFILE + MOBILE_ID, "123456788")
                 .exchange().expectStatus().isOk()
                 .expectBody(UserDto.class)
                 .value(user -> assertEquals("Pablo", user.getFirstName()));
