@@ -2,6 +2,7 @@ package es.upm.miw.betca_tpv_user.api.resources;
 
 import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -109,15 +110,15 @@ class UserResourceIT {
                 .exchange().expectStatus().isOk();
     }
 
-    /*
+    @Disabled //Como se ha suprimido la validación de número de digitos en el móvil el test devuelve un 409 CONFLICT ya testeado
     @Test
     void testCreateUserBadNumber() {
         this.restClientTestService.loginOperator(this.webTestClient)
                 .post().uri(USERS)
                 .body(Mono.just(UserDto.builder().mobile("6").firstName("kk").build()), UserDto.class)
                 .exchange()
-                .expectStatus();
-    }*/
+                .expectStatus().isBadRequest();
+    }
 
 
     @Test
