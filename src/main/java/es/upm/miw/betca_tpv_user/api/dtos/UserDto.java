@@ -13,9 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,7 +25,7 @@ import java.util.UUID;
 public class UserDto {
     @NotNull
     @NotBlank
-    @Pattern(regexp = Validations.NINE_DIGITS)
+    //@Pattern(regexp = Validations.ONE_DIGIT)
     private String mobile;
     @NotNull
     @NotBlank
@@ -49,6 +47,27 @@ public class UserDto {
     public static UserDto ofMobileFirstName(User user) {
         return UserDto.builder().mobile(user.getMobile()).firstName(user.getFirstName()).build();
     }
+
+    /*
+    public static UserDto ofMobileFirstNameRole(User user) {
+        return UserDto.builder().mobile(user.getMobile()).firstName(user.getFirstName()).role(user.getRole()).build();
+    }*/
+
+    public static UserDto ofUser(User user){
+        return UserDto.builder()
+                .mobile(user.getMobile())
+                .firstName(user.getFirstName())
+                .familyName(user.getFamilyName())
+                .dni(user.getDni())
+                .email(user.getEmail())
+                .address(user.getAddress())
+                .password(user.getPassword())
+                .active(user.getActive())
+                .role(user.getRole())
+                .registrationDate(user.getRegistrationDate())
+                .build();
+    }
+
 
     public void doDefault() {
         if (Objects.isNull(password)) {
