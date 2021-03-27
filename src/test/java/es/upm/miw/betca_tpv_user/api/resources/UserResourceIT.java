@@ -161,6 +161,7 @@ class UserResourceIT {
                 .value(user -> assertEquals("Pablo", user.getFirstName()));
     }
 
+
         @Test
         void testReadAllOperator () {
             this.restClientTestService.loginOperator(this.webTestClient)
