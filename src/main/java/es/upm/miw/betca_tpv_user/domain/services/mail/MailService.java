@@ -11,13 +11,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
 
-    @Autowired
     private MailSender mailSender;
 
-    @Value("${spring.mail.username}@gmail.com")
     private String from;
 
-    private String subject = "Information";
+    private String subject;
+
+    @Autowired
+    public MailService(MailSender mailSender, @Value("${spring.mail.username}@gmail.com") String from) {
+        this.mailSender = mailSender;
+        this.from = from;
+        this.subject = "Information";
+        System.out.println(">>>>>>>>>>>>>>>"+ this.from);
+    }
 
     public String getFrom() {
         return from;
