@@ -3,15 +3,14 @@ package es.upm.miw.betca_tpv_user.api.resources;
 import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-import static es.upm.miw.betca_tpv_user.api.resources.AdminResource.*;
+import static es.upm.miw.betca_tpv_user.api.resources.AdminResource.ADMIN;
+import static es.upm.miw.betca_tpv_user.api.resources.AdminResource.ROLE;
 import static es.upm.miw.betca_tpv_user.api.resources.UserResource.MOBILE_ID;
-import static es.upm.miw.betca_tpv_user.api.resources.UserResource.PROFILE;
-import static es.upm.miw.betca_tpv_user.api.resources.UserResource.USERS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ApiTestConfig
 class AdminResourceIT {
@@ -106,6 +105,19 @@ class AdminResourceIT {
     }
 
     @Test
+    void updateUserUnauthorized() {
+        String pass = new BCryptPasswordEncoder().encode("6");
+
+        this.webTestClient
+                .put()
+                .uri(ADMIN + MOBILE_ID, "666666001")
+                .body(Mono.just(UserDto.builder().mobile("666666001").firstName("man").familyName("user")
+                        .address("C/TPV, 12").password(pass).dni("66666601C").email("man@gmail.com").build()), UserDto.class)
+                .exchange().expectStatus().isUnauthorized();
+
+    }
+
+    @Test
     void readUserByMobileUnauthorized() {
         this.webTestClient
                 .get()
@@ -127,6 +139,23 @@ class AdminResourceIT {
 
 
     @Test
-    void delete() {
+    void testCreateAndDelete() {
+
+        this.restClientTestService.loginAdmin(this.webTestClient)
+                .post().uri(ADMIN + ROLE, "ADMIN")
+                .body(Mono.just(UserDto.builder().mobile("333").firstName("user3").familyName("user")
+                        .address("address").password("1234").dni("1234567").email("user3@gmail.com").build()), UserDto.class)
+                .exchange().expectStatus().isOk();
+
+        this.restClientTestService.loginAdmin(this.webTestClient)
+                .delete().uri(ADMIN + MOBILE_ID, "333")
+                .exchange().expectStatus().isOk();
+
+        this.restClientTestService.loginAdmin(this.webTestClient)
+                .get()
+                .uri(ADMIN + MOBILE_ID, "333")
+                .exchange().expectStatus().isNotFound();
+
+
     }
 }
