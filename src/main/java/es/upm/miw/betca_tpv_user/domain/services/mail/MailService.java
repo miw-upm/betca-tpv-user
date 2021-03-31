@@ -11,13 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
 
-    @Autowired
     private MailSender mailSender;
 
-    @Value("${spring.mail.username}@gmail.com")
     private String from;
 
-    private String subject = "Information";
+    private String subject;
+
+    @Autowired
+    public MailService(MailSender mailSender, @Value("${spring.mail.username}") String from) {
+        this.mailSender = mailSender;
+        this.from = from;
+        this.subject = "Information";
+    }
 
     public String getFrom() {
         return from;
@@ -43,7 +48,6 @@ public class MailService {
         simpleMailMessage.setText(msg);
         try {
             mailSender.send(simpleMailMessage);
-            LogManager.getLogger(this.getClass().getName()).debug(() -> String.format("E-MAIL from: %s, to: %s, subject: %s", from, to, subject));
         } catch (Exception e) {
             throw new MailException("Mail service unavailable");
         }

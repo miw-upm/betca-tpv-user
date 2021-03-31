@@ -59,7 +59,7 @@ public class UserSeederDev {
                 User.builder().mobile("66").firstName("customer").password(pass).role(Role.CUSTOMER)
                         .registrationDate(LocalDateTime.now()).active(true).build(),
                 User.builder().mobile("123456788").firstName("Hector").password(pass).role(Role.CUSTOMER)
-                        .registrationDate(LocalDateTime.now()).active(true).build(),
+                        .registrationDate(LocalDateTime.now()).active(true).email("hector.mumartin@gmail.com").build(),
         };
         this.userRepository.saveAll(Arrays.asList(users));
         LogManager.getLogger(this.getClass()).warn("        ------- users");
