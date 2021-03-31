@@ -47,6 +47,12 @@ public class UserService {
         this.userRepository.save(oldUser);
     }
 
+    public void updateUserPassword(String email, String password) {
+        User oldUser = this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("The email don't exist: " + email));
+        oldUser.setPassword(password);
+        this.userRepository.save(oldUser);
+    }
+
     public Stream<User> readAll(Role roleClaim) {
         return this.userRepository.findByRoleIn(authorizedRoles(roleClaim)).stream();
     }
@@ -78,5 +84,9 @@ public class UserService {
 
     public User readByMobile(String mobile) {
         return this.userRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
+    }
+
+    public User readByEmail(String email) {
+        return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("The email don't exist: " + email));
     }
 }
