@@ -110,17 +110,6 @@ class UserResourceIT {
                 .exchange().expectStatus().isOk();
     }
 
-    @Disabled //Como se ha suprimido la validación de número de digitos en el móvil el test devuelve un 409 CONFLICT ya testeado
-    @Test
-    void testCreateUserBadNumber() {
-        this.restClientTestService.loginOperator(this.webTestClient)
-                .post().uri(USERS)
-                .body(Mono.just(UserDto.builder().mobile("6").firstName("kk").build()), UserDto.class)
-                .exchange()
-                .expectStatus().isBadRequest();
-    }
-
-
     @Test
     void testCreateUserWithoutNumber() {
      this.restClientTestService.loginAdmin(this.webTestClient)
@@ -160,6 +149,7 @@ class UserResourceIT {
                 .expectBody(UserDto.class)
                 .value(user -> assertEquals("Pablo", user.getFirstName()));
     }
+
 
         @Test
         void testReadAllOperator () {
