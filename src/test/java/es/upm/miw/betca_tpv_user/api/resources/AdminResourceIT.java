@@ -25,7 +25,7 @@ class AdminResourceIT {
     void testCreateByAdmin() {
         this.restClientTestService.loginAdmin(this.webTestClient)
                 .post().uri(ADMIN + ROLE, "ADMIN")
-                .body(Mono.just(UserDto.builder().mobile("55").firstName("user1").familyName("user")
+                .body(Mono.just(UserDto.builder().mobile("22").firstName("user3").familyName("user")
                         .address("address").password("1234").dni("1234567").email("user@gmail.com").build()), UserDto.class)
                 .exchange().expectStatus().isOk();
 

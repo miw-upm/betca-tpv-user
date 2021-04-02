@@ -2,6 +2,7 @@ package es.upm.miw.betca_tpv_user.domain.services;
 
 import es.upm.miw.betca_tpv_user.data.daos.AdminRepository;
 import es.upm.miw.betca_tpv_user.data.model.User;
+import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
 import es.upm.miw.betca_tpv_user.domain.exceptions.NotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class AdminService {
 
     public void create(User user){
         user.setRegistrationDate(LocalDateTime.now());
+        this.checkMobile(user.getMobile());
         this.adminRepository.save(user);
     }
 
@@ -43,6 +45,12 @@ public class AdminService {
 
     public void delete(User user){
         this.adminRepository.delete(user);
+    }
+
+    private void checkMobile(String mobile) {
+        if (this.adminRepository.findByMobile(mobile).isPresent()) {
+            throw new ConflictException("The mobile already exists: " + mobile);
+        }
     }
 
 }
