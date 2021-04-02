@@ -65,11 +65,11 @@ class AdminServiceIT {
 
     @Test
     void testDelete() {
-        User user = User.builder().mobile("55").firstName("user5").role(Role.MANAGER).email("user5@gmail.com").build();
+        User user = User.builder().mobile("90").firstName("user5").role(Role.MANAGER).email("user5@gmail.com").build();
         adminService.create(user);
         assertThat(adminService.readByMobile(user.getMobile()).getRole(), is(Role.MANAGER));
         adminService.delete(user);
-        assertThrows(NotFoundException.class, () -> this.adminService.readByMobile("55"));
+        assertThrows(NotFoundException.class, () -> this.adminService.readByMobile("90"));
 
 
     }
