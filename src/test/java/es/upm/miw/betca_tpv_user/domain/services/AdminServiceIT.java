@@ -24,14 +24,14 @@ class AdminServiceIT {
 
     @Test
     void testCreate() {
-        User user = User.builder().mobile("55").firstName("user1").role(Role.CUSTOMER).build();
+        User user = User.builder().mobile("55").firstName("user1").role(Role.CUSTOMER).email("user1@hotmail.com").build();
         this.adminService.create(user);
         assertThat(this.adminService.readByMobile("55").getMobile(), is("55"));
     }
 
     @Test
     void testCreateMobileAlreadyExist() {
-        User user = User.builder().mobile("6").firstName("user2").role(Role.CUSTOMER).build();
+        User user = User.builder().mobile("6").firstName("user2").role(Role.CUSTOMER).email("user2@gmail.com").build();
         assertThrows(ConflictException.class, () -> this.adminService.create(user));
     }
 
