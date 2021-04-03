@@ -31,6 +31,8 @@ public class UserDto {
     @NotBlank
     private String firstName;
     private String familyName;
+    @NotNull
+    @NotBlank
     private String email;
     private String dni;
     private String address;

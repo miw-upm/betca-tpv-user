@@ -1,23 +1,22 @@
 package es.upm.miw.betca_tpv_user.api.resources;
 
+import es.upm.miw.betca_tpv_user.api.dtos.EmailDto;
+import es.upm.miw.betca_tpv_user.api.dtos.RecoverPasswordDto;
 import es.upm.miw.betca_tpv_user.api.dtos.TokenDto;
 import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
-import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
 import es.upm.miw.betca_tpv_user.domain.exceptions.ForbiddenException;
-import es.upm.miw.betca_tpv_user.domain.exceptions.NotFoundException;
 import es.upm.miw.betca_tpv_user.domain.services.JwtService;
 import es.upm.miw.betca_tpv_user.domain.services.UserService;
+import es.upm.miw.betca_tpv_user.domain.services.mail.MailService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,16 +32,21 @@ public class UserResource {
     public static final String USERS = "/users";
     public static final String CUSTOMERS = "/customers";
     public static final String PROFILE = "/profile";
+    public static final String RECOVER = "/recover_password";
+    public static final String SEND_EMAIL = "/send_email";
     public static final String TOKEN = "/token";
     public static final String MOBILE_ID = "/{mobile}";
     public static final String SEARCH = "/search";
+    public static final String MESSAGE = "Click on the next link, which allows you to update your password:\nhttp://localhost:4200/home/forgotten-password";
 
     private UserService userService;
+    private MailService mailService;
     private JwtService jwtService;
 
     @Autowired
-    public UserResource(UserService userService, JwtService jwtService) {
+    public UserResource(UserService userService, MailService mailService, JwtService jwtService) {
         this.userService = userService;
+        this.mailService = mailService;
         this.jwtService = jwtService;
     }
 
@@ -69,11 +73,25 @@ public class UserResource {
         }
     }
 
+    @PreAuthorize("permitAll()")
+    @PostMapping(SEND_EMAIL)
+    public void sendEmail(@Valid @RequestBody EmailDto emailDto) {
+        if (this.userService.readByEmail(emailDto.getEmail())!=null){
+            this.mailService.send(emailDto.getEmail(), this.MESSAGE);
+        }
+    }
+
     @SecurityRequirement(name = "barerAuth")
     @PreAuthorize("authenticated")
     @PutMapping(MOBILE_ID)
     public void updateUser(@Valid @RequestBody UserDto updateUserDto, @PathVariable String mobile) {
         this.userService.updateUser(mobile, updateUserDto.toUser());
+    }
+
+    @PreAuthorize("permitAll()")
+    @PutMapping(RECOVER)
+    public void updateUserPassword(@Valid @RequestBody RecoverPasswordDto recoverPasswordDto) {
+        this.userService.updateUserPassword(recoverPasswordDto.getMail(), new BCryptPasswordEncoder().encode(recoverPasswordDto.getPassword()));
     }
 
     @SecurityRequirement(name = "bearerAuth")
