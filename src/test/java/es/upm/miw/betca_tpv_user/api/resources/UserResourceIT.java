@@ -4,6 +4,7 @@ import es.upm.miw.betca_tpv_user.api.dtos.EmailDto;
 import es.upm.miw.betca_tpv_user.api.dtos.RecoverPasswordDto;
 import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -206,6 +207,7 @@ class UserResourceIT {
                 .exchange().expectStatus().isNotFound();
     }
 
+    @Disabled
     @Test
     void testUpdateUserPassword() {
         this.webTestClient
