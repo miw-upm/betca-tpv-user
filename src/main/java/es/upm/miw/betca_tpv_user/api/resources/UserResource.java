@@ -37,7 +37,7 @@ public class UserResource {
     public static final String TOKEN = "/token";
     public static final String MOBILE_ID = "/{mobile}";
     public static final String SEARCH = "/search";
-    public final String MESSAGE = "Click on the next link, which allows you to update your password:\nhttp://localhost:4200/home/forgotten-password";
+    public static final String MESSAGE = "Click on the next link, which allows you to update your password:\nhttp://localhost:4200/home/forgotten-password";
 
     private UserService userService;
     private MailService mailService;
