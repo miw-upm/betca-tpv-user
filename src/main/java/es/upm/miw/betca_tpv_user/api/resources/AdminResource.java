@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,21 +40,6 @@ public class AdminResource {
         creationUserDto.doDefault();
         this.adminService.create(creationUserDto.toUser());
     }
-
-    /*
-    @PostMapping(produces = {"application/json"})
-    public void register(@Valid @RequestBody UserDto creationUserDto){
-        creationUserDto.doDefault();
-        this.adminService.create(creationUserDto.toUser());
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @SecurityRequirement(name = "bearerAuth")
-    @GetMapping
-    public Stream< UserDto > readBasicInfo() {
-        return this.adminService.readAll()
-                .map(UserDto::ofMobileFirstNameRole);
-    }*/
 
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('OPERATOR')")

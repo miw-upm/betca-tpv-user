@@ -1,5 +1,6 @@
 package es.upm.miw.betca_tpv_user.domain.services;
 
+import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.daos.AdminRepository;
 import es.upm.miw.betca_tpv_user.data.model.User;
 import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
@@ -32,9 +33,15 @@ public class AdminService {
         return this.adminRepository.findAll().stream();
     }
 
-    public User readByMobile(String mobile){
+
+    public User readByMobile(String mobile) {
         return this.adminRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
+
     }
+    /*
+    public User readByMobile(String mobile){
+        return this.adminRepository.findByMobile(mobile).orElse(null);
+    }*/
 
 
     public void update(String mobile, User user){
