@@ -30,7 +30,7 @@ public class DatabaseStarting {
         if (this.userRepository.findByRoleIn(List.of(Role.ADMIN)).isEmpty()) {
             User user = User.builder().mobile(MOBILE).firstName(SUPER_USER)
                     .password(new BCryptPasswordEncoder().encode(PASSWORD))
-                    .role(Role.ADMIN).registrationDate(LocalDateTime.now()).active(true).build();
+                    .role(Role.ADMIN).email("6@gmail.com").registrationDate(LocalDateTime.now()).active(true).build();
             this.userRepository.save(user);
             LogManager.getLogger(this.getClass()).warn("------- Created Admin -----------");
         }

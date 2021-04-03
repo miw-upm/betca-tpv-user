@@ -21,19 +21,19 @@ class UserServiceTest {
 
     @Test
     void testCreateUserForbidden() {
-        User user = User.builder().mobile("666000666").firstName("k").role(Role.ADMIN).build();
+        User user = User.builder().mobile("666000666").firstName("k").email("email@gmail.com").role(Role.ADMIN).build();
         assertThrows(ForbiddenException.class, () -> this.userService.createUser(user, Role.MANAGER));
     }
 
     @Test
     void testCreateUserMobileAlreadyExist() {
-        User user = User.builder().mobile("6").firstName("Hector").role(Role.CUSTOMER).build();
+        User user = User.builder().mobile("6").firstName("Hector").email("email2@gmail.com").role(Role.CUSTOMER).build();
         assertThrows(ConflictException.class, () -> this.userService.createUser(user, Role.ADMIN));
     }
 
     @Test
     void testCreateUserSuccessfully() {
-        User user = User.builder().mobile("649111224").firstName("Hector").role(Role.CUSTOMER).build();
+        User user = User.builder().mobile("649111224").firstName("Hector").email("email3@gmail.com").role(Role.CUSTOMER).build();
         this.userService.createUser(user, Role.ADMIN);
         assertThat(this.userService.readByMobile("649111224").getMobile(), is("649111224"));
     }

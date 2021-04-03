@@ -10,7 +10,7 @@ class CreationUserDtoTest {
 
     @Test
     void testToUser() {
-        User user = UserDto.builder().mobile("666666666").firstName("daemon").build().toUser();
+        User user = UserDto.builder().mobile("666666666").firstName("daemon").email("email@gmail.com").build().toUser();
         assertNotNull(user.getRole());
         assertTrue(user.getActive());
     }

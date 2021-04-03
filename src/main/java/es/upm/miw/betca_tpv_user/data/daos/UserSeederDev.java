@@ -55,10 +55,10 @@ public class UserSeederDev {
                         .address("C/TPV, 4").email("c2@gmail.com").role(Role.CUSTOMER)
                         .registrationDate(LocalDateTime.now()).active(true).build(),
                 User.builder().mobile("666666005").firstName("c3").password(pass).role(Role.CUSTOMER)
-                        .registrationDate(LocalDateTime.now()).active(true).build(),
+                        .registrationDate(LocalDateTime.now()).email("c3@gmail.com").active(true).build(),
                 User.builder().mobile("66").firstName("customer").password(pass).role(Role.CUSTOMER)
-                        .registrationDate(LocalDateTime.now()).active(true).build(),
-                User.builder().mobile("123456788").firstName("Hector").password(pass).role(Role.CUSTOMER)
+                        .registrationDate(LocalDateTime.now()).email("c4@gmail.com").active(true).build(),
+                User.builder().mobile("123456788").firstName("Hector").password(pass).role(Role.ADMIN)
                         .registrationDate(LocalDateTime.now()).active(true).email("hector.mumartin@gmail.com").build(),
         };
         this.userRepository.saveAll(Arrays.asList(users));
