@@ -1,6 +1,5 @@
 package es.upm.miw.betca_tpv_user.data.daos;
 
-import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.data.model.User;
 import org.apache.logging.log4j.LogManager;

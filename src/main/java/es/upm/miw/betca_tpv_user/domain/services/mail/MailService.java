@@ -1,7 +1,6 @@
 package es.upm.miw.betca_tpv_user.domain.services.mail;
 
 import es.upm.miw.betca_tpv_user.domain.exceptions.MailException;
-import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;

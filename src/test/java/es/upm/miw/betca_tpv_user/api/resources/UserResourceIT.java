@@ -133,6 +133,18 @@ class UserResourceIT {
     }
 
     @Test
+    void testCreateCustomerWithOutCustomerRole() {
+        this.webTestClient
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                        .path(USERS + CUSTOMERS)
+                        .build())
+                .body(Mono.just(UserDto.builder().mobile("123456787").firstName("Hector").familyName("family")
+                        .address("address").password("123").dni("dni").email("email6@gmail.com").role(Role.OPERATOR).build()), UserDto.class)
+                .exchange().expectStatus().isOk();
+    }
+
+    @Test
     void testUpdateUser() {
         WebTestClient webTestClient = this.restClientTestService.loginOperator(this.webTestClient);
 
