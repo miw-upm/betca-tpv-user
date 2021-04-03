@@ -2,6 +2,7 @@ package es.upm.miw.betca_tpv_user.api.dtos;
 
 import es.upm.miw.betca_tpv_user.data.model.User;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,5 +14,20 @@ class UserDtoTest {
                 .dni("d").password("1").build());
         assertEquals("6", x.getMobile());
         assertEquals("secret", x.getPassword());
+    }
+
+    @Test
+    void testOfMobileFirstName(){
+     
+    }
+
+    @Test
+    void testDoDefault (){
+
+    }
+
+    @Test
+    void testToUser(){
+
     }
 }

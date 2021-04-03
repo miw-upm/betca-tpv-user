@@ -48,10 +48,6 @@ public class UserDto {
         return UserDto.builder().mobile(user.getMobile()).firstName(user.getFirstName()).build();
     }
 
-    /*
-    public static UserDto ofMobileFirstNameRole(User user) {
-        return UserDto.builder().mobile(user.getMobile()).firstName(user.getFirstName()).role(user.getRole()).build();
-    }*/
 
     public static UserDto ofUser(User user){
         return UserDto.builder()
