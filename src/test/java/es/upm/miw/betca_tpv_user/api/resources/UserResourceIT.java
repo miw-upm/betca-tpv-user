@@ -207,12 +207,11 @@ class UserResourceIT {
                 .exchange().expectStatus().isNotFound();
     }
 
-    @Disabled
     @Test
     void testUpdateUserPassword() {
-        this.webTestClient
+        this.restClientTestService.loginAdmin(this.webTestClient)
                 .put().uri(USERS + RECOVER)
-                .body(Mono.just(RecoverPasswordDto.builder().mail("6@gmail.com").password("1234").build()), RecoverPasswordDto.class)
+                .body(Mono.just(RecoverPasswordDto.builder().mail("hector1.mumartin@gmail.com").password("1234").build()), RecoverPasswordDto.class)
                 .exchange().expectStatus().isOk();
     }
 
