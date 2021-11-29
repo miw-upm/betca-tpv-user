@@ -11,7 +11,7 @@
 
 ## :gear: Ejecución en local
 1. Ejecutar el motor de Postgresql: `//localhost:5432/tpv`
-1. Ejecutar en consola: `mvn clean spring-boot:run`
+1. Ejecutar en consola: `./mvnw clean spring-boot:run`
 
 * Cliente Web (OpenAPI): `http://localhost:8081/swagger-ui.html`
 
