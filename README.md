@@ -3,7 +3,7 @@
 > Aplicación TPV. Pretende ser un ejemplo práctico y real de todos los conocimientos vistos
 
 ## Estado del código
-[![TPV User](https://github.com/miw-upm/betca-tpv-user/workflows/TPV%20User/badge.svg)](https://github.com/miw-upm/betca-tpv-user/actions?query=workflow%3A%22TPV+User%22)
+[![Spring User - Tests](https://github.com/miw-upm/betca-tpv-user/actions/workflows/test-sonar.yml/badge.svg)](https://github.com/miw-upm/betca-tpv-user/actions/workflows/test-sonar.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=develop&project=es.upm.miw%3Abetca-tpv-user&metric=alert_status)](https://sonarcloud.io/dashboard?id=es.upm.miw%3Abetca-tpv-user&branch=develop)
 
 ## Tecnologías necesarias
