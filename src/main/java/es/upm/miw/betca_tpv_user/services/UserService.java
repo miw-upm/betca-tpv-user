@@ -1,11 +1,11 @@
-package es.upm.miw.betca_tpv_user.domain.services;
+package es.upm.miw.betca_tpv_user.services;
 
 import es.upm.miw.betca_tpv_user.data.daos.UserRepository;
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.data.model.User;
-import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
-import es.upm.miw.betca_tpv_user.domain.exceptions.ForbiddenException;
-import es.upm.miw.betca_tpv_user.domain.exceptions.NotFoundException;
+import es.upm.miw.betca_tpv_user.services.exceptions.ConflictException;
+import es.upm.miw.betca_tpv_user.services.exceptions.ForbiddenException;
+import es.upm.miw.betca_tpv_user.services.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,8 @@ import java.util.stream.Stream;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private JwtService jwtService;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     @Autowired
     public UserService(UserRepository userRepository, JwtService jwtService) {
@@ -35,7 +35,7 @@ public class UserService {
         if (!authorizedRoles(roleClaim).contains(user.getRole())) {
             throw new ForbiddenException("Insufficient role to create this user: " + user);
         }
-        this.noExistByMobile(user.getMobile());
+        this.assertNoExistByMobile(user.getMobile());
         user.setRegistrationDate(LocalDateTime.now());
         this.userRepository.save(user);
     }
@@ -56,7 +56,7 @@ public class UserService {
         }
     }
 
-    private void noExistByMobile(String mobile) {
+    private void assertNoExistByMobile(String mobile) {
         if (this.userRepository.findByMobile(mobile).isPresent()) {
             throw new ConflictException("The mobile already exists: " + mobile);
         }
@@ -69,7 +69,8 @@ public class UserService {
         ).stream();
     }
 
-    public User readByMobile(String mobile) {
-        return this.userRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
+    public User readByMobileAssured(String mobile) {
+        return this.userRepository.findByMobile(mobile)
+                .orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
     }
 }

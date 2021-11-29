@@ -2,7 +2,7 @@ package es.upm.miw.betca_tpv_user.api.resources;
 
 import es.upm.miw.betca_tpv_user.api.dtos.TokenDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
-import es.upm.miw.betca_tpv_user.domain.services.JwtService;
+import es.upm.miw.betca_tpv_user.services.JwtService;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

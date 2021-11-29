@@ -1,4 +1,4 @@
-package es.upm.miw.betca_tpv_user.domain.services;
+package es.upm.miw.betca_tpv_user.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -17,9 +17,9 @@ public class JwtService {
     private static final String NAME_CLAIM = "name";
     private static final String ROLE_CLAIM = "role";
 
-    private String secret;
-    private String issuer;
-    private int expire;
+    private final String secret;
+    private final String issuer;
+    private final int expire;
 
     @Autowired
     public JwtService(@Value("${miw.jwt.secret}") String secret, @Value("${miw.jwt.issuer}") String issuer,

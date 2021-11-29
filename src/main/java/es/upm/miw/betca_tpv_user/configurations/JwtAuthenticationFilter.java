@@ -1,7 +1,7 @@
 package es.upm.miw.betca_tpv_user.configurations;
 
 import es.upm.miw.betca_tpv_user.data.model.Role;
-import es.upm.miw.betca_tpv_user.domain.services.JwtService;
+import es.upm.miw.betca_tpv_user.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

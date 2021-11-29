@@ -3,7 +3,7 @@ package es.upm.miw.betca_tpv_user.api.resources;
 import es.upm.miw.betca_tpv_user.api.dtos.TokenDto;
 import es.upm.miw.betca_tpv_user.api.dtos.UserDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
-import es.upm.miw.betca_tpv_user.domain.services.UserService;
+import es.upm.miw.betca_tpv_user.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +29,7 @@ public class UserResource {
     public static final String MOBILE_ID = "/{mobile}";
     public static final String SEARCH = "/search";
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserResource(UserService userService) {
@@ -53,7 +53,7 @@ public class UserResource {
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping(MOBILE_ID)
     public UserDto readUser(@PathVariable String mobile) {
-        return new UserDto(this.userService.readByMobile(mobile));
+        return new UserDto(this.userService.readByMobileAssured(mobile));
     }
 
     @SecurityRequirement(name = "bearerAuth")

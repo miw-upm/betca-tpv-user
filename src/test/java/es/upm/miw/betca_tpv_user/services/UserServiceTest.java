@@ -1,9 +1,10 @@
-package es.upm.miw.betca_tpv_user.domain.services;
+package es.upm.miw.betca_tpv_user.services;
 
 import es.upm.miw.betca_tpv_user.TestConfig;
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.data.model.User;
-import es.upm.miw.betca_tpv_user.domain.exceptions.ForbiddenException;
+import es.upm.miw.betca_tpv_user.services.UserService;
+import es.upm.miw.betca_tpv_user.services.exceptions.ForbiddenException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

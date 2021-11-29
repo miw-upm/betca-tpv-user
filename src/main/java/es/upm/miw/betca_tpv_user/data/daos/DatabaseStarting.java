@@ -17,7 +17,7 @@ public class DatabaseStarting {
     private static final String MOBILE = "6";
     private static final String PASSWORD = "6";
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public DatabaseStarting(UserRepository userRepository) {

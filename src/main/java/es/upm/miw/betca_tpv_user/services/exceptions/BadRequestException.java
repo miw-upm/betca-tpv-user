@@ -1,4 +1,4 @@
-package es.upm.miw.betca_tpv_user.domain.exceptions;
+package es.upm.miw.betca_tpv_user.services.exceptions;
 
 public class BadRequestException extends RuntimeException {
     private static final String DESCRIPTION = "Bad Request Exception";

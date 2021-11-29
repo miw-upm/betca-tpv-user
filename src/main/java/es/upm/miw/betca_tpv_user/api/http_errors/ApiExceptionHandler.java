@@ -1,9 +1,9 @@
 package es.upm.miw.betca_tpv_user.api.http_errors;
 
-import es.upm.miw.betca_tpv_user.domain.exceptions.BadRequestException;
-import es.upm.miw.betca_tpv_user.domain.exceptions.ConflictException;
-import es.upm.miw.betca_tpv_user.domain.exceptions.ForbiddenException;
-import es.upm.miw.betca_tpv_user.domain.exceptions.NotFoundException;
+import es.upm.miw.betca_tpv_user.services.exceptions.BadRequestException;
+import es.upm.miw.betca_tpv_user.services.exceptions.ConflictException;
+import es.upm.miw.betca_tpv_user.services.exceptions.ForbiddenException;
+import es.upm.miw.betca_tpv_user.services.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -70,7 +70,7 @@ public class ApiExceptionHandler {
     })
     @ResponseBody
     public ErrorMessage exception(Exception exception) { // The error must be corrected
-        exception.printStackTrace(); // it helps to debugging
+        exception.printStackTrace(); // it helps to debugging but it is a code smell
         return new ErrorMessage(exception, HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 

@@ -1,4 +1,4 @@
-package es.upm.miw.betca_tpv_user.domain.services;
+package es.upm.miw.betca_tpv_user.services;
 
 import es.upm.miw.betca_tpv_user.data.daos.UserRepository;
 import es.upm.miw.betca_tpv_user.data.model.Role;
@@ -21,7 +21,7 @@ import java.util.List;
 @Qualifier("miw.users")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserDetailsServiceImpl(UserRepository userRepository) {

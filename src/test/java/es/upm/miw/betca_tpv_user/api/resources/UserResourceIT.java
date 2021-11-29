@@ -51,7 +51,7 @@ class UserResourceIT {
     }
 
     @Test
-    void testCreateUser() {
+    void testCreateUserWithAdmin() {
         this.restClientTestService.loginAdmin(this.webTestClient)
                 .post().uri(USERS)
                 .body(Mono.just(UserDto.builder().mobile("666000666").firstName("daemon").build()), UserDto.class)
@@ -59,7 +59,15 @@ class UserResourceIT {
     }
 
     @Test
-    void testCreateUserUnauthorized() {
+    void testCreateUserWithOperator() {
+        this.restClientTestService.loginOperator(this.webTestClient)
+                .post().uri(USERS)
+                .body(Mono.just(UserDto.builder().mobile("666000667").firstName("daemon").build()), UserDto.class)
+                .exchange().expectStatus().isOk();
+    }
+
+    @Test
+    void testCreateUserUnauthorizedNoLogin() {
         this.webTestClient
                 .post().uri(USERS)
                 .body(Mono.just(UserDto.builder().mobile("666000666").firstName("daemon").build()), UserDto.class)
@@ -67,7 +75,16 @@ class UserResourceIT {
     }
 
     @Test
-    void testCreateUserForbidden() {
+    void testCreateUserUnauthorizedWithCustomer() {
+        this.restClientTestService.loginCustomer(this.webTestClient)
+                .post().uri(USERS)
+                .body(Mono.just(UserDto.builder().mobile("666000666").firstName("daemon").role(Role.CUSTOMER).build()),
+                        UserDto.class)
+                .exchange().expectStatus().isUnauthorized();
+    }
+
+    @Test
+    void testCreateAdminUserForbidden() {
         this.restClientTestService.loginManager(this.webTestClient)
                 .post().uri(USERS)
                 .body(Mono.just(UserDto.builder().mobile("666000666").firstName("daemon").role(Role.ADMIN).build()),

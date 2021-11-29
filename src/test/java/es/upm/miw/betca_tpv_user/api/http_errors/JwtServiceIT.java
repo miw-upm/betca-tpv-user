@@ -1,7 +1,7 @@
 package es.upm.miw.betca_tpv_user.api.http_errors;
 
 import es.upm.miw.betca_tpv_user.TestConfig;
-import es.upm.miw.betca_tpv_user.domain.services.JwtService;
+import es.upm.miw.betca_tpv_user.services.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

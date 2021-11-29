@@ -29,5 +29,4 @@ public class User {
     private Role role;
     private LocalDateTime registrationDate;
     private Boolean active;
-
 }

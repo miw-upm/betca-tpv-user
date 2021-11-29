@@ -62,9 +62,9 @@ public class UserDto {
 
     public User toUser() {
         this.doDefault();
-        this.password = new BCryptPasswordEncoder().encode(this.password);
         User user = new User();
         BeanUtils.copyProperties(this, user);
+        user.setPassword(new BCryptPasswordEncoder().encode(this.password));
         return user;
     }
 }
