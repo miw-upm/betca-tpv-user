@@ -33,9 +33,8 @@
         <!-- coverage report -->
         <jacoco.version>0.8.5</jacoco.version>
         <!-- various -->
-        <jwt.version>4.2.1</jwt.version>
-        <itextpdf.version>7.0.2</itextpdf.version>
-        <springdoc-openapi-ui.version>1.5.12</springdoc-openapi-ui.version>
+        <jwt.version>4.3.0</jwt.version>
+        <springdoc-openapi-ui.version>1.6.14</springdoc-openapi-ui.version>
     </properties>
 
     <dependencies>
