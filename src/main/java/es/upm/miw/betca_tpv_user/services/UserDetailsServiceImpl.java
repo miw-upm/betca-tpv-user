@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private org.springframework.security.core.userdetails.User userBuilder(String mobile, String password, Role[] roles,
                                                                            boolean active) {
-        List< GrantedAuthority > authorities = new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.withPrefix()));
         }

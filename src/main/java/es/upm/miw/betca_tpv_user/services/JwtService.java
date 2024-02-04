@@ -42,7 +42,7 @@ public class JwtService {
                 .withIssuer(this.issuer)
                 .withIssuedAt(new Date())
                 .withNotBefore(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + this.expire * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + this.expire * 1000L))
                 .withClaim(USER_CLAIM, user)
                 .withClaim(NAME_CLAIM, name)
                 .withClaim(ROLE_CLAIM, role)
@@ -68,7 +68,7 @@ public class JwtService {
                 .orElse("");
     }
 
-    private Optional< DecodedJWT > verify(String token) {
+    private Optional<DecodedJWT> verify(String token) {
         try {
             return Optional.of(JWT.require(Algorithm.HMAC256(this.secret))
                     .withIssuer(this.issuer).build()

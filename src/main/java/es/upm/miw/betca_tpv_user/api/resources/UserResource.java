@@ -39,7 +39,7 @@ public class UserResource {
     @SecurityRequirement(name = "basicAuth")
     @PreAuthorize("authenticated")
     @PostMapping(value = TOKEN)
-    public Optional< TokenDto > login(@AuthenticationPrincipal User activeUser) {
+    public Optional<TokenDto> login(@AuthenticationPrincipal User activeUser) {
         return userService.login(activeUser.getUsername())
                 .map(TokenDto::new);
     }
@@ -58,14 +58,14 @@ public class UserResource {
 
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping
-    public Stream< UserDto > readAll() {
+    public Stream<UserDto> readAll() {
         return this.userService.readAll(this.extractRoleClaims())
                 .map(UserDto::ofMobileFirstName);
     }
 
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping(value = SEARCH)
-    public Stream< UserDto > findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
+    public Stream<UserDto> findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
             @RequestParam(required = false) String mobile, @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String familyName, @RequestParam(required = false) String email,
             @RequestParam(required = false) String dni) {
@@ -75,7 +75,7 @@ public class UserResource {
     }
 
     private Role extractRoleClaims() {
-        List< String > roleClaims = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+        List<String> roleClaims = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         return Role.of(roleClaims.get(0));  // it must only be a role
     }

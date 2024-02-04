@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static es.upm.miw.betca_tpv_user.data.model.Role.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestConfig
@@ -23,14 +24,14 @@ class UserRepositoryIT {
 
     @Test
     void testFindByRoleIn() {
-        List< Role > roles = List.of(ADMIN, MANAGER);
+        List<Role> roles = List.of(ADMIN, MANAGER);
         assertTrue(this.userRepository.findByRoleIn(roles).stream().allMatch(user -> roles.contains(user.getRole())));
     }
 
     @Test
     void testFindByMobileAndFirstNameAndFamilyNameAndEmailAndDniNullSafeWithMobile() {
         assertTrue(this.userRepository.findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
-                "1", null, null, ".com", null, List.of(MANAGER)).stream()
+                        "1", null, null, ".com", null, List.of(MANAGER)).stream()
                 .anyMatch(user -> "666666001".equals(user.getMobile()))
         );
     }

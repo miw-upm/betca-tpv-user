@@ -19,4 +19,5 @@ import org.springframework.context.annotation.Configuration;
         scheme = "basic"
 )
 public class OpenApi3Configuration {
+    //Empty
 }

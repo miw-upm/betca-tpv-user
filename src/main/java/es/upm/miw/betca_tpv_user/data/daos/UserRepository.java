@@ -9,10 +9,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository< User, Integer > {
-    Optional< User > findByMobile(String mobile);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findByMobile(String mobile);
 
-    List< User > findByRoleIn(Collection< Role > roles);
+    List<User> findByRoleIn(Collection<Role> roles);
 
     @Query("select u from User u where " +
             "(?1 is null or u.mobile like concat('%',?1,'%')) and " +
@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository< User, Integer > {
             "(?4 is null or lower(u.email) like lower(concat('%',?4,'%'))) and" +
             "(?5 is null or lower(u.dni) like lower(concat('%',?5,'%'))) and" +
             "(u.role in ?6)")
-    List< User > findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
-            String mobile, String firstName, String familyName, String email, String dni, Collection< Role > roles);
+    List<User> findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
+            String mobile, String firstName, String familyName, String email, String dni, Collection<Role> roles);
 }

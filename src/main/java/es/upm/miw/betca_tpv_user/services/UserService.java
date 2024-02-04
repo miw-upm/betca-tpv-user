@@ -26,7 +26,7 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public Optional< String > login(String mobile) {
+    public Optional<String> login(String mobile) {
         return this.userRepository.findByMobile(mobile)
                 .map(user -> jwtService.createToken(user.getMobile(), user.getFirstName(), user.getRole().name()));
     }
@@ -40,11 +40,11 @@ public class UserService {
         this.userRepository.save(user);
     }
 
-    public Stream< User > readAll(Role roleClaim) {
+    public Stream<User> readAll(Role roleClaim) {
         return this.userRepository.findByRoleIn(authorizedRoles(roleClaim)).stream();
     }
 
-    private List< Role > authorizedRoles(Role roleClaim) {
+    private List<Role> authorizedRoles(Role roleClaim) {
         if (Role.ADMIN.equals(roleClaim)) {
             return List.of(Role.ADMIN, Role.MANAGER, Role.OPERATOR, Role.CUSTOMER);
         } else if (Role.MANAGER.equals(roleClaim)) {
@@ -62,7 +62,7 @@ public class UserService {
         }
     }
 
-    public Stream< User > findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
+    public Stream<User> findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
             String mobile, String firstName, String familyName, String email, String dni, Role roleClaim) {
         return this.userRepository.findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
                 mobile, firstName, familyName, email, dni, this.authorizedRoles(roleClaim)

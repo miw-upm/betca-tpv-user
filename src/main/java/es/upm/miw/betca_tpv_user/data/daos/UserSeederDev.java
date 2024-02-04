@@ -13,8 +13,8 @@ import java.util.Arrays;
 @Repository // @Profile("dev")
 public class UserSeederDev {
 
-    private DatabaseStarting databaseStarting;
-    private UserRepository userRepository;
+    private final DatabaseStarting databaseStarting;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserSeederDev(UserRepository userRepository, DatabaseStarting databaseStarting) {

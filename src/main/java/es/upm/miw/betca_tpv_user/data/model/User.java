@@ -1,8 +1,8 @@
 package es.upm.miw.betca_tpv_user.data.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder

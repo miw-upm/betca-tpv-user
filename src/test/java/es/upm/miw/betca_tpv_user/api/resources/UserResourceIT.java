@@ -116,7 +116,7 @@ class UserResourceIT {
                 .post().uri(USERS)
                 .body(Mono.just(UserDto.builder().mobile("6").firstName("kk").build()), UserDto.class)
                 .exchange()
-                .expectStatus().isBadRequest();
+                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
     }
 
     @Test
