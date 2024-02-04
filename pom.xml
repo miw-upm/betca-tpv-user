@@ -54,7 +54,7 @@
         <!-- coverage report -->
         <jacoco.version>0.8.11</jacoco.version>
         <!-- JWT -->
-        <jwt.version>4.3.0</jwt.version>
+        <jwt.version>4.4.0</jwt.version>
         <!-- OpenAPI -->
         <springdoc-openapi-ui.version>1.6.15</springdoc-openapi-ui.version>
     </properties>
