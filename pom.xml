@@ -52,7 +52,7 @@
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.1.2</maven-failsafe-plugin.version>
         <!-- coverage report -->
-        <jacoco.version>0.8.10</jacoco.version>
+        <jacoco.version>0.8.11</jacoco.version>
         <!-- JWT -->
         <jwt.version>4.3.0</jwt.version>
         <!-- OpenAPI -->
