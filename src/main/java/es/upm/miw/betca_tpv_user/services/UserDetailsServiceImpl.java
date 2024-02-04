@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-@Qualifier("miw.users")
+@Qualifier("miwUsers")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;

@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,7 +29,7 @@ public class SecurityConfiguration {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfiguration(@Qualifier("miw.users") UserDetailsService userDetailsService) {
+    public SecurityConfiguration(@Qualifier("miwUsers") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -59,7 +58,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthorizationFilter() throws Exception {
+    public JwtAuthenticationFilter jwtAuthorizationFilter() {
         return new JwtAuthenticationFilter();
     }
 
