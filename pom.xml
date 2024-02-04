@@ -56,7 +56,7 @@
         <!-- JWT -->
         <jwt.version>4.4.0</jwt.version>
         <!-- OpenAPI -->
-        <springdoc-openapi-ui.version>1.6.15</springdoc-openapi-ui.version>
+        <springdoc-openapi-ui.version>2.0.4</springdoc-openapi-ui.version>
     </properties>
 
     <dependencies>
@@ -77,10 +77,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- http://localhost:8081/swagger-ui/index.html -->
+        <!-- http://localhost:8081/swagger-ui.html -->
+        <!-- http://localhost:8081/v3/api-docs -->
 		<dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc-openapi-ui.version}</version>
         </dependency>	
         <!-- Validation-->
@@ -192,6 +193,17 @@
                         <goals>
                             <goal>integration-test</goal>
                             <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-info</goal>
                         </goals>
                     </execution>
                 </executions>
