@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 public class JwtService {
     private static final String BEARER = "Bearer ";
+    private static final int PARTIES = 3;
     private static final String USER_CLAIM = "user";
     private static final String NAME_CLAIM = "name";
     private static final String ROLE_CLAIM = "role";
@@ -30,7 +31,7 @@ public class JwtService {
     }
 
     public String extractToken(String bearer) {
-        if (bearer != null && bearer.startsWith(BEARER) && 3 == bearer.split("\\.").length) {
+        if (bearer != null && bearer.startsWith(BEARER) && PARTIES == bearer.split("\\.").length) {
             return bearer.substring(BEARER.length());
         } else {
             return "";
