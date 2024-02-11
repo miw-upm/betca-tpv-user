@@ -143,9 +143,9 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Asynchronous Programming Test-->
+            <!-- <scope>test</scope>-->
+    </dependency>
+    <!-- Asynchronous Programming Test-->
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
