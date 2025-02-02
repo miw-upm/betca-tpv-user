@@ -1,4 +1,4 @@
-name: CD - Heroku
+name: CD - jar file- Heroku
 on:
   push:
     branches:
