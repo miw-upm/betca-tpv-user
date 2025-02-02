@@ -1,6 +1,7 @@
 package es.upm.miw.betca_tpv_user.data.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,10 +16,8 @@ public class User {
     @Id
     @GeneratedValue
     private int id;
-    @NonNull
     @Column(unique = true, nullable = false)
     private String mobile;
-    @NonNull
     private String firstName;
     private String familyName;
     private String email;

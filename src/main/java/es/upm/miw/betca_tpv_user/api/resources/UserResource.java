@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 @RequestMapping(UserResource.USERS)
 public class UserResource {
     public static final String USERS = "/users";
-
     public static final String TOKEN = "/token";
     public static final String MOBILE_ID = "/{mobile}";
     public static final String SEARCH = "/search";
@@ -67,8 +66,10 @@ public class UserResource {
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping(value = SEARCH)
     public Stream<UserDto> findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
-            @RequestParam(required = false) String mobile, @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String familyName, @RequestParam(required = false) String email,
+            @RequestParam(required = false) String mobile,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String familyName,
+            @RequestParam(required = false) String email,
             @RequestParam(required = false) String dni) {
         return this.userService.findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
                 mobile, firstName, familyName, email, dni, this.extractRoleClaims()

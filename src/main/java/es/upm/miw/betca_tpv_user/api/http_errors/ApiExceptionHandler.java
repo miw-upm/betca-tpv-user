@@ -69,6 +69,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler({
             Exception.class
     })
+
     @ResponseBody
     public ErrorMessage exception(Exception exception) { // The error must be corrected
         exception.printStackTrace(); // it helps to debugging but it is a code smell
