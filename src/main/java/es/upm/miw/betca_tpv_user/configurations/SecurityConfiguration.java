@@ -1,7 +1,8 @@
 package es.upm.miw.betca_tpv_user.configurations;
 
+import es.upm.miw.betca_tpv_user.data.daos.UserRepository;
+import es.upm.miw.betca_tpv_user.data.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,11 +28,24 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public SecurityConfiguration(@Qualifier("miwUsers") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfiguration(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return mobile -> {
+            User user = userRepository.findByMobile(mobile)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            return org.springframework.security.core.userdetails.User.builder()
+                    .username(user.getMobile())
+                    .password(user.getPassword())
+                    .roles(user.getRole().name())
+                    .build();
+        };
     }
 
     @Bean
@@ -47,7 +62,7 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
