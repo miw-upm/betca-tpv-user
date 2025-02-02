@@ -39,8 +39,6 @@
     </developers>
 
     <properties>
-        <!-- Encode
-        <encoding>UTF-8</encoding> -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
@@ -56,7 +54,7 @@
         <!-- JWT -->
         <jwt.version>4.4.0</jwt.version>
         <!-- OpenAPI -->
-        <springdoc-openapi-ui.version>2.0.4</springdoc-openapi-ui.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.8.4</springdoc-openapi-starter-webmvc-ui.version>
     </properties>
 
     <dependencies>
@@ -82,7 +80,7 @@
 		<dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc-openapi-ui.version}</version>
+            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
         </dependency>	
         <!-- Validation-->
         <dependency>
