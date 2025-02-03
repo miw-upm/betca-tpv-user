@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -26,9 +25,10 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public Optional<String> login(String mobile) {
+    public String login(String mobile) {
         return this.userRepository.findByMobile(mobile)
-                .map(user -> jwtService.createToken(user.getMobile(), user.getFirstName(), user.getRole().name()));
+                .map(user -> jwtService.createToken(user.getMobile(), user.getFirstName(), user.getRole().name()))
+                .orElseThrow(() -> new NotFoundException("Impossible, you should have already logged in."));
     }
 
     public void createUser(User user, Role roleClaim) {

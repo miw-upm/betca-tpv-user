@@ -1,32 +1,64 @@
-version: '3.8'
+version: '3.9'                          # Versión de Docker Compose utilizado
 
-services:
+services:                               # Define los servicios: son contenedores
   database:
-    image: postgres:15.10
+    image: postgres:15.10               # Se basa en la imagen de postgres:15.10
     container_name: postgres-db
+    # Siempre reinicia contenedor si falla: el host, el propio contenedor o si se para manualmente
+    # restart: unless-stopped           # Se reinicia si no se para manualmente
+    # restart: on-failure[:max-retries] # Solo si el contenedor ha fallado, opcionalmente con un número de intentos
     restart: always
-    environment:
+    environment:                        # Variables de entorno para configurar PostgreSQL
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: tpv
-    ports:
+    ports:                              # Mapea el puerto 5432 del contenedor al puerto 5432 de la máquina host
       - "5432:5432"
+    # Monta un volumen (pgdata) en la ruta indicada del contenedor, pero estan conectados con la ruta real del anfitrion
+    # Los datos se almacenan en el sistema de archivos del anfitrión en una ruta gestionada por Docker
+    # No se pierde si reinica el contenedor
     volumes:
       - pgdata:/var/lib/postgresql/data
+    labels:                             # Ayuda en la organización y gestión de contenedores
+      - "es.upm.miw.betca-tpv-user=database"
 
   app:
-    build: .
+    build: .                            # Construye el contenedor a partir del Dockerfile en el directorio actual
     container_name: java-app
     restart: always
-    depends_on:
+    depends_on:                         # Este servicio depende del servicio database y debe arrancar después
       - database
     ports:
       - "8081:8081"
-    environment:
+    environment:                        # Variables de entorno de Spring para configurar la conexión a la base de datos:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/tpv
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      # none: no hace nada con el esquema
+      # validate: valida si realizar cambios
+      # update: añade las nuevas columnas y tablas, pero no quita lo obsoleto
+      # create: elimina el esquema existente antes de crearlo nuevamente
+      # create-drop: parecido al anterior, pero lo elimina al detener
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    labels:
+      - "es.upm.miw.betca-tpv-user=app"
 
 volumes:
   pgdata:
+    name: "postgres-data"                # Nombre amigable para el volumen
+
+# ==== COMANDOS ====
+# Comando de construcción de imágenes y ejecución de contenedores definidos
+# --build: forzar la reconstrucción de las imágenes de Docker antes de crear y ejecutar los contenedores
+# -d (Detached Mode): Ejecuta los contenedores en segundo plano, liberando la terminal para otros comandos
+# >>> docker compose up --build -d
+
+# logs: Muestra los logs de los contenedores.
+# -f (Follow): Sigue los logs en tiempo real
+# >>> docker logs [-f] java-app
+
+# Detiene la ejecución sin eliminarlos
+# >>> docker compose stop
+
+# Detiene y elimina los contenedores, redes, colúmenes
+# >>> docker compose down

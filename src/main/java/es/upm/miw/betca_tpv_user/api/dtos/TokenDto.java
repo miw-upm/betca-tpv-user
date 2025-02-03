@@ -1,14 +1,12 @@
 package es.upm.miw.betca_tpv_user.api.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class TokenDto {
     private String token;
 }

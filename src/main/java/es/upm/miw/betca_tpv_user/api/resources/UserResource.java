@@ -6,6 +6,7 @@ import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +16,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('OPERATOR')")
@@ -39,9 +39,10 @@ public class UserResource {
     @SecurityRequirement(name = "basicAuth")
     @PreAuthorize("authenticated")
     @PostMapping(value = TOKEN)
-    public Optional<TokenDto> login(@AuthenticationPrincipal User activeUser) {
-        return userService.login(activeUser.getUsername())
-                .map(TokenDto::new);
+    public TokenDto login(@AuthenticationPrincipal User activeUser) {
+        TokenDto token = new TokenDto(userService.login(activeUser.getUsername()));
+        LogManager.getLogger(this.getClass()).debug(token::toString);
+        return token;
     }
 
     @SecurityRequirement(name = "bearerAuth")
