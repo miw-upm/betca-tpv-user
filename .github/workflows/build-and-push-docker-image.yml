@@ -17,18 +17,16 @@ jobs:
           java-version: 21
       - name: Get version from pom.xml
         id: get-version
-        run:
-          echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
-          echo ${{ steps.get-version.outputs.version }}
+        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+      - name: Show GITHUB_OUTPUT
+        run: echo ${{ steps.get-version.outputs.version }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.CD_TOKEN }}
 
-#
-#      - name: Login to GitHub Container Registry
-#        uses: docker/login-action@v3
-#       with:
-#          registry: ghcr.io
-#         username: ${{ github.actor }}
-#         password: ${{ secrets.CD_TOKEN }}
-#
 #      - name: Build Docker image
 #        run: |
 #          docker build -t ${{ github.repository }}:${{ steps.get-version.outputs.version }} .
