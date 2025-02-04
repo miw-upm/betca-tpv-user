@@ -17,15 +17,18 @@ jobs:
           java-version: 21
       - name: Get version from pom.xml
         id: get-version
-        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
-      - name: Show GITHUB_OUTPUT
-        # IMAGE_NAME: nombre del repositorio
+        # REPOSITORY: nombre del repositorio
+        # IMAGE_NAME: ruta de los paquetes de destino
         # VERSION: versión sacado del fichero POM
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository }}
-          VERSION=${{ steps.get-version.outputs.version }}
-          echo $IMAGE_NAME
+          echo "REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+          echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+          echo "IMAGE_NAME=ghcr.io/${{ github.repository }}" >> $GITHUB_ENV
+      - name: Show NAMES
+        run: |
+          echo $REPOSITORY
           echo $VERSION
+          echo $IMAGE_NAME
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -42,18 +45,13 @@ jobs:
         # docker build se construye la imagen de docker a partir del fichero Dockerfile
         # docker tag: se etiqueta la imagen con la versión actual y se establece que es la última
         run: |
-          docker build -t $IMAGE_NAME:$VERSION .
-          docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
-#      - name: Build Docker image
-#        run: |
-#          docker build -t ${{ github.repository }}:${{ steps.get-version.outputs.version }} .
-#          docker tag ${{ github.repository }}:${{ steps.get-version.outputs.version }} ghcr.io/${{ github.repository }}:${{ steps.get-version.outputs.version }}
-#          docker tag ${{ github.repository }}:${{ steps.get-version.outputs.version }} ghcr.io/${{ github.repository }}:latest
-#
-#      - name: Push Docker image to GitHub Container Registry
-#        run: |
-#          docker push ghcr.io/${{ github.repository }}:${{ steps.get-version.outputs.version }}
-#          docker push ghcr.io/${{ github.repository }}:latest
-#
+          docker build -t $REPOSITORY:$VERSION .
+          docker tag $REPOSITORY:$VERSION $IMAGE_NAME:$VERSION
+          docker tag $REPOSITORY:$VERSION $IMAGE_NAME:latest
+      - name: Push Docker image to GitHub Container Registry
+        run: |
+           docker push $IMAGE_NAME:$VERSION
+           docker push $IMAGE_NAME:latest
+
 #      - name: Solicita a Render nuevo despliegue
 #        run: curl https://api.render.com/deploy/${{ secrets.RENDER_KEY_DEPLOY_HOOK }}
