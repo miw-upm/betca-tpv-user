@@ -1,5 +1,4 @@
 version: '3.9'                          # Versión de Docker Compose utilizado
-
 services:                               # Define los servicios: son contenedores
   database:
     image: postgres:15.10               # Se basa en la imagen de postgres:15.10
@@ -21,7 +20,6 @@ services:                               # Define los servicios: son contenedores
       - pgdata:/var/lib/postgresql/data
     labels:                             # Ayuda en la organización y gestión de contenedores
       - "es.upm.miw.betca-tpv-user=database"
-
   app:
     build: .                            # Construye el contenedor a partir del Dockerfile en el directorio actual
     container_name: java-app
@@ -42,7 +40,6 @@ services:                               # Define los servicios: son contenedores
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     labels:
       - "es.upm.miw.betca-tpv-user=app"
-
 volumes:
   pgdata:
     name: "postgres-data"                # Nombre amigable para el volumen
