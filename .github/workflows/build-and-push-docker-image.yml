@@ -19,7 +19,13 @@ jobs:
         id: get-version
         run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
       - name: Show GITHUB_OUTPUT
-        run: echo ${{ steps.get-version.outputs.version }}
+        # IMAGE_NAME: nombre del repositorio
+        # VERSION: versión sacado del fichero POM
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository }}
+          VERSION=${{ steps.get-version.outputs.version }}
+          echo $IMAGE_NAME:$VERSION
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -32,9 +38,9 @@ jobs:
           #    repositorio en GitHub >> settings >> secrets and variables >> actions >> new repository secret
           password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
       - name: Build and Tag Docker image
+        # docker build se construye la imagen de docker a partir del fichero Dockerfile
+        # docker tag: se etiqueta la imagen con la versión actual y se establece que es la última
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository }}
-          VERSION=${{ steps.get-version.outputs.version }}
           docker build -t $IMAGE_NAME:$VERSION .
           docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
 #      - name: Build Docker image
