@@ -24,7 +24,8 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository }}
           VERSION=${{ steps.get-version.outputs.version }}
-          echo $IMAGE_NAME:$VERSION
+          echo $IMAGE_NAME
+          echo $VERSION
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
