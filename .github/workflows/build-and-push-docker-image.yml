@@ -17,10 +17,8 @@ jobs:
           java-version: 21
       - name: Get version from pom.xml
         id: get-version
-        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
-
-      - name: Show GITHUB_OUTPUT
         run:
+          echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
           echo ${{ steps.get-version.outputs.version }}
 
 #
