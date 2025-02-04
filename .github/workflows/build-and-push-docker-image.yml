@@ -19,6 +19,10 @@ jobs:
       - name: Get version from pom.xml
         id: get-version
         run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+
+      - name: Show GITHUB_OUTPUT
+        run: echo "$GITHUB_OUTPUT"
+
 #
 #      - name: Login to GitHub Container Registry
 #        uses: docker/login-action@v3
