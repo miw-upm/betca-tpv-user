@@ -54,4 +54,7 @@ jobs:
            docker push $IMAGE_NAME:latest
 
       - name: Deploy on Render
-        run: curl https://api.render.com/deploy/${{ secrets.RENDER_DEPLOY_TOKEN }}
+#        run: curl https://api.render.com/deploy/${{ secrets.RENDER_DEPLOY_TOKEN }}
+        run: |
+           curl --fail -X POST "https://api.render.com/deploy/${{ secrets.RENDER_DEPLOY_TOKEN }}" || { echo "Deployment failed"; exit 1; }
+           echo "Deployment succeeded"
