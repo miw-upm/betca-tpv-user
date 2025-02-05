@@ -11,6 +11,7 @@ public class Application {
         System.out.println("DATABASE_URL: " + System.getenv("DATABASE_URL"));
         System.out.println("DATABASE_USERNAME: " + System.getenv("DATABASE_USERNAME"));
         System.out.println("DATABASE_PASSWORD: " + System.getenv("DATABASE_PASSWORD"));
+        System.out.println("JWT_SECRET: " + System.getenv("JWT_SECRET"));
         SpringApplication.run(Application.class, args);
     }
 
