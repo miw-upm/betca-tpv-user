@@ -29,8 +29,6 @@ public class DatabaseStarting {
     }
 
     void initialize() {
-        LogManager.getLogger(this.getClass()).info(() -> "--- Data Base: {}" + this.environment.getProperty("spring.datasource.url"));
-        LogManager.getLogger(this.getClass()).info(() -> "--- JWT secret: {}" + this.environment.getProperty("miw.jwt.secret"));
         LogManager.getLogger(this.getClass()).warn("------- Finding Admin -----------");
         if (this.userRepository.findByRoleIn(List.of(Role.ADMIN)).isEmpty()) {
             User user = User.builder().mobile(MOBILE).firstName(SUPER_USER)
