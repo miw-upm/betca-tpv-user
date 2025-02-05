@@ -42,20 +42,21 @@ jobs:
           #    repositorio en GitHub >> settings >> secrets and variables >> actions >> new repository secret
           password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
       - name: Build and Tag and Push Docker image
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         # docker build se construye la imagen de docker a partir del fichero Dockerfile
         # docker tag: se etiqueta la imagen con la versión actual y se establece que es la última
         run: |
           docker build -t $REPOSITORY:$VERSION .
           docker tag $REPOSITORY:$VERSION $IMAGE_NAME:$VERSION
           docker tag $REPOSITORY:$VERSION $IMAGE_NAME:latest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - name: Push Docker image to GitHub Container Registry
         run: |
            docker push $IMAGE_NAME:$VERSION
            docker push $IMAGE_NAME:latest
-
+      - name: Debug Environment Variables
+        run: printenv
       - name: Deploy on Render
 #        run: curl https://api.render.com/deploy/${{ secrets.RENDER_DEPLOY_TOKEN }}
         run: |
