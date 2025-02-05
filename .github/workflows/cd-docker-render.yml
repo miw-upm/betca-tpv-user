@@ -1,11 +1,11 @@
-name: Build and Push Docker Image
+name: CD
 on:
   push:
     branches:
       - master
 jobs:
-  build-and-push:
-    name: Build and Push Docker Image
+  cd:
+    name: Build & Push GitHub Package & Deploy on Render Docker Image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,7 +41,7 @@ jobs:
           # 2º Configuración de Secrets en GitHub
           #    repositorio en GitHub >> settings >> secrets and variables >> actions >> new repository secret
           password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
-      - name: Build and Tag Docker image
+      - name: Build and Tag and Push Docker image
         # docker build se construye la imagen de docker a partir del fichero Dockerfile
         # docker tag: se etiqueta la imagen con la versión actual y se establece que es la última
         run: |
