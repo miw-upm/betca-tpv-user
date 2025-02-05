@@ -18,18 +18,17 @@ jobs:
       - name: Get version from pom.xml
         id: get-version
         # REPOSITORY: nombre del repositorio
-        # IMAGE_NAME: ruta de los paquetes de destino
+        # PACKAGE_PATH: ruta de los paquetes de destino
         # VERSION: versión sacado del fichero POM
         run: |
           echo "REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
           echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-          echo "IMAGE_NAME=ghcr.io/${{ github.repository }}" >> $GITHUB_ENV
+          echo "PACKAGE_PATH=ghcr.io/${{ github.repository }}" >> $GITHUB_ENV
       - name: Show NAMES
         run: |
           echo $REPOSITORY
           echo $VERSION
-          echo $IMAGE_NAME
-
+          echo $PACKAGE_PATH
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -46,16 +45,16 @@ jobs:
         # docker tag: se etiqueta la imagen con la versión actual y se establece que es la última
         run: |
           docker build  -t $REPOSITORY:$VERSION .
-          docker tag $REPOSITORY:$VERSION $IMAGE_NAME:$VERSION
-          docker tag $REPOSITORY:$VERSION $IMAGE_NAME:latest
+          docker tag $REPOSITORY:$VERSION $PACKAGE_PATH:$VERSION
+          docker tag $REPOSITORY:$VERSION $PACKAGE_PATH:latest
       - name: Push Docker image to GitHub Container Registry
         run: |
-           docker push $IMAGE_NAME:$VERSION
-           docker push $IMAGE_NAME:latest
-      - name: Debug Environment Variables
-        run: printenv
+           docker push $PACKAGE_PATH:$VERSION
+           docker push $PACKAGE_PATH:latest
       - name: Deploy on Render
-#        run: curl https://api.render.com/deploy/${{ secrets.RENDER_DEPLOY_TOKEN }}
+        # En Render, en el servicio Web, Settings >> Deploy Hook >>  copiar el token de acceso
+        # En GitHub, en el repositorio, Settings >> Secrets and variables >> Actions >> definir la variable de entorno
+        # DEPLOY_HOOK_TOKEN con el token
         run: |
-           curl --fail -X POST "https://api.render.com/deploy/${{ secrets.RENDER_DEPLOY_TOKEN }}" || { echo "Deployment failed"; exit 1; }
+           curl --fail -X POST "https://api.render.com/deploy/${{ secrets.DEPLOY_HOOK_TOKEN }}" || { echo "Deployment failed"; exit 1; }
            echo "Deployment succeeded"

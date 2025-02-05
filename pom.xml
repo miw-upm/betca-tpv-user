@@ -11,7 +11,7 @@
 
     <groupId>es.upm.miw</groupId>
     <artifactId>betca-tpv-user</artifactId>
-    <version>4.5.19-Release</version>
+    <version>4.5.20-Release</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}.${project.artifactId}</name>
