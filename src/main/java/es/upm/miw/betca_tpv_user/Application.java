@@ -8,6 +8,9 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 public class Application {
 
     public static void main(String[] args) { // mvn clean spring-boot:run
+        System.out.println("DATABASE_URL: " + System.getenv("DATABASE_URL"));
+        System.out.println("DATABASE_USERNAME: " + System.getenv("DATABASE_USERNAME"));
+        System.out.println("DATABASE_PASSWORD: " + System.getenv("DATABASE_PASSWORD"));
         SpringApplication.run(Application.class, args);
     }
 
