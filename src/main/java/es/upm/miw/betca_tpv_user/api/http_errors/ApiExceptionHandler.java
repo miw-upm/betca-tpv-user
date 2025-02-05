@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -21,6 +22,17 @@ public class ApiExceptionHandler {
     @ResponseBody
     public void unauthorizedRequest(Exception exception) {
         LogManager.getLogger(this.getClass()).debug(() -> "Unauthorized: " + exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({
+            NoResourceFoundException.class
+    })
+    @ResponseBody
+    public ErrorMessage noResourceFoundRequest(Exception exception) {
+        return new ErrorMessage(new NotFoundException(
+                "Ruta no encontrada. Prueba con: **/actuator/info o **/swagger-ui.html o **/v3/api-docs"),
+                HttpStatus.NOT_FOUND.value());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
