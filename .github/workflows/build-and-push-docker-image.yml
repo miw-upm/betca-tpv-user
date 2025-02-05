@@ -53,5 +53,5 @@ jobs:
            docker push $IMAGE_NAME:$VERSION
            docker push $IMAGE_NAME:latest
 
-#      - name: Solicita a Render nuevo despliegue
-#        run: curl https://api.render.com/deploy/${{ secrets.RENDER_KEY_DEPLOY_HOOK }}
+      - name: Deploy on Render
+        run: curl https://api.render.com/deploy/${{ secrets.RENDER_DEPLOY_TOKEN }}
