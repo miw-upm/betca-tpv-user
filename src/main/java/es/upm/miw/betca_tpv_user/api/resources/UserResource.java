@@ -27,8 +27,6 @@ public class UserResource {
     public static final String MOBILE_ID = "/{mobile}";
     public static final String SEARCH = "/search";
 
-    private static final int ONLY_ONE_ROLE = 0;
-
     private final UserService userService;
 
     @Autowired
@@ -80,7 +78,7 @@ public class UserResource {
     private Role extractRoleClaims() {
         List<String> roleClaims = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).toList();
-        return Role.of(roleClaims.get(ONLY_ONE_ROLE));
+        return Role.of(roleClaims.getFirst());
     }
 
 }
