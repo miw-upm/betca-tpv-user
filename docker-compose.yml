@@ -1,7 +1,7 @@
-version: '3.9'                          # Versión de Docker Compose utilizado
 services:                               # Define los servicios: son contenedores
   database:
-    image: postgres:15.10               # Se basa en la imagen de postgres:15.10
+    # Se basa en la imagen de postgres:15.10
+    image: postgres:15.10
     container_name: postgres-db
     # Siempre reinicia contenedor si falla: el host, el propio contenedor o si se para manualmente
     # restart: unless-stopped           # Se reinicia si no se para manualmente
@@ -22,7 +22,7 @@ services:                               # Define los servicios: son contenedores
       - "es.upm.miw.betca-tpv-user=database"
   app:
     build: .                            # Construye el contenedor a partir del Dockerfile en el directorio actual
-    container_name: java-app
+    container_name: user-api
     restart: always
     depends_on:                         # Este servicio depende del servicio database y debe arrancar después
       - database
@@ -52,10 +52,13 @@ volumes:
 
 # logs: Muestra los logs de los contenedores.
 # -f (Follow): Sigue los logs en tiempo real
-# >>> docker logs [-f] java-app
+# >>> docker logs [-f] user-api
 
 # Detiene la ejecución sin eliminarlos
 # >>> docker compose stop
 
 # Detiene y elimina los contenedores, redes, colúmenes
 # >>> docker compose down
+
+# Arranca la consola sobre la base de datos de Postgres
+# >>> docker exec -it postgres-db psql -U postgres -d tpv
