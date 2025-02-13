@@ -15,11 +15,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByRoleIn(Collection<Role> roles);
 
     @Query("select u from User u where " +
-            "(?1 is null or u.mobile like concat('%',?1,'%')) and " +
-            "(?2 is null or lower(u.firstName) like lower(concat('%',?2,'%'))) and" +
-            "(?3 is null or lower(u.familyName) like lower(concat('%',?3,'%'))) and" +
-            "(?4 is null or lower(u.email) like lower(concat('%',?4,'%'))) and" +
-            "(?5 is null or lower(u.dni) like lower(concat('%',?5,'%'))) and" +
+            "(coalesce(?1, '') = '' or u.mobile like concat('%',?1,'%')) and " +
+            "(coalesce(?2, '') = '' or lower(u.firstName) like lower(concat('%',?2,'%'))) and" +
+            "(coalesce(?3, '') = '' or lower(u.familyName) like lower(concat('%',?3,'%'))) and" +
+            "(coalesce(?4, '') = '' or lower(u.email) like lower(concat('%',?4,'%'))) and" +
+            "(coalesce(?5, '') = '' or lower(u.dni) like lower(concat('%',?5,'%'))) and" +
             "(u.role in ?6)")
     List<User> findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
             String mobile, String firstName, String familyName, String email, String dni, Collection<Role> roles);
