@@ -3,6 +3,7 @@ package es.upm.miw.betca_tpv_user.api.resources;
 import es.upm.miw.betca_tpv_user.api.dtos.TokenDto;
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.services.JwtService;
+import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class RestClientTestService {
     @Autowired
     private JwtService jwtService;
 
+    @Getter
     private String token;
 
     private boolean isRole(Role role) {
@@ -61,10 +63,6 @@ public class RestClientTestService {
 
     public WebTestClient loginCustomer(WebTestClient webTestClient) {
         return this.login(Role.CUSTOMER, "66", webTestClient);
-    }
-
-    public String getToken() {
-        return token;
     }
 
 }

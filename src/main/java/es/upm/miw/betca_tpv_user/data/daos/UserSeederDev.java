@@ -2,7 +2,7 @@ package es.upm.miw.betca_tpv_user.data.daos;
 
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.data.model.User;
-import org.apache.logging.log4j.LogManager;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+@Log4j2
 @Repository // @Profile("dev")
 public class UserSeederDev {
 
@@ -30,12 +31,12 @@ public class UserSeederDev {
 
     public void deleteAllAndInitialize() {
         this.userRepository.deleteAll();
-        LogManager.getLogger(this.getClass()).warn("------- Deleted All -----------");
+        log.warn("------- Deleted All -----------");
         this.databaseStarting.initialize();
     }
 
     private void seedDataBase() {
-        LogManager.getLogger(this.getClass()).warn("------- Initial Load from JAVA -----------");
+        log.warn("------- Initial Load from JAVA -----------");
         String pass = new BCryptPasswordEncoder().encode("6");
         User[] users = {
                 User.builder().mobile("666666000").firstName("adm").password(pass).dni(null).address("C/TPV, 0")
@@ -59,7 +60,7 @@ public class UserSeederDev {
                         .registrationDate(LocalDateTime.now()).active(true).build(),
         };
         this.userRepository.saveAll(Arrays.asList(users));
-        LogManager.getLogger(this.getClass()).warn("        ------- users");
+        log.warn("        ------- users");
     }
 
 }

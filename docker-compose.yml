@@ -60,5 +60,11 @@ volumes:
 # Detiene y elimina los contenedores, redes, colúmenes
 # >>> docker compose down
 
-# Arranca la consola sobre la base de datos de Postgres
-# >>> docker exec -it postgres-db psql -U postgres -d tpv
+# Me conecto a la consola del contenedor, exit para salir
+#> docker exec -it postgres-betca bash
+
+# Arranca la consola sobre Postgres, \q para salir
+#> psql -U postgres
+
+# Las dos anteriores de un tiron, \q para salir
+#> docker exec -it postgres-db psql -U postgres

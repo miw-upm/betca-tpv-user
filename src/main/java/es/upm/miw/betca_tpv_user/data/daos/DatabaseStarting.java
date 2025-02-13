@@ -2,7 +2,7 @@ package es.upm.miw.betca_tpv_user.data.daos;
 
 import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.data.model.User;
-import org.apache.logging.log4j.LogManager;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Log4j2
 @Repository
 public class DatabaseStarting {
 
@@ -26,13 +27,13 @@ public class DatabaseStarting {
     }
 
     void initialize() {
-        LogManager.getLogger(this.getClass()).warn("------- Finding Admin -----------");
+        log.warn("------- Finding Admin -----------");
         if (this.userRepository.findByRoleIn(List.of(Role.ADMIN)).isEmpty()) {
             User user = User.builder().mobile(MOBILE).firstName(SUPER_USER)
                     .password(new BCryptPasswordEncoder().encode(PASSWORD))
                     .role(Role.ADMIN).registrationDate(LocalDateTime.now()).active(true).build();
             this.userRepository.save(user);
-            LogManager.getLogger(this.getClass()).warn("------- Created Admin -----------");
+            log.warn("------- Created Admin -----------");
         }
     }
 
