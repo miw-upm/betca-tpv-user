@@ -1,3 +1,4 @@
+# Entorno de producción
 # ==ETAPA 1: Construcción del JAR con Maven==
     # Imagen combinada: maven + jdk21 de eclipse
 FROM maven:3.9.9-eclipse-temurin-21 AS build

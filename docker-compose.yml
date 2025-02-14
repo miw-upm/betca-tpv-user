@@ -44,7 +44,7 @@ volumes:
   pgdata:
     name: "postgres-data"                # Nombre amigable para el volumen
 
-# ==== COMANDOS ====
+# ========================== COMANDOS =================================================================
 # Comando de construcción de imágenes y ejecución de contenedores definidos
 # --build: forzar la reconstrucción de las imágenes de Docker antes de crear y ejecutar los contenedores
 # -d (Detached Mode): Ejecuta los contenedores en segundo plano, liberando la terminal para otros comandos
@@ -57,7 +57,7 @@ volumes:
 # Detiene la ejecución sin eliminarlos
 # >>> docker compose stop
 
-# Detiene y elimina los contenedores, redes, colúmenes
+# Detiene y elimina los contenedores, redes, volúmenes
 # >>> docker compose down
 
 # Me conecto a la consola del contenedor, exit para salir
@@ -66,5 +66,5 @@ volumes:
 # Arranca la consola sobre Postgres, \q para salir
 #> psql -U postgres
 
-# Las dos anteriores de un tiron, \q para salir
+# Las dos anteriores conjuntamente, \q para salir
 #> docker exec -it postgres-db psql -U postgres

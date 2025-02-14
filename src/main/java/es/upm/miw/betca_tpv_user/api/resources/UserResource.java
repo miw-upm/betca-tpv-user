@@ -6,7 +6,7 @@ import es.upm.miw.betca_tpv_user.data.model.Role;
 import es.upm.miw.betca_tpv_user.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import org.apache.logging.log4j.LogManager;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Log4j2
 @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('OPERATOR')")
 @RestController
 @RequestMapping(UserResource.USERS)
@@ -39,7 +40,7 @@ public class UserResource {
     @PostMapping(value = TOKEN)
     public TokenDto login(@AuthenticationPrincipal User activeUser) {
         TokenDto token = new TokenDto(userService.login(activeUser.getUsername()));
-        LogManager.getLogger(this.getClass()).debug(token::toString);
+        log.debug(token::toString);
         return token;
     }
 

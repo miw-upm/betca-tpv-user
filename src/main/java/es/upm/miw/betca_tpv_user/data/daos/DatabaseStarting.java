@@ -27,7 +27,6 @@ public class DatabaseStarting {
     }
 
     void initialize() {
-        log.warn("------- Finding Admin -----------");
         if (this.userRepository.findByRoleIn(List.of(Role.ADMIN)).isEmpty()) {
             User user = User.builder().mobile(MOBILE).firstName(SUPER_USER)
                     .password(new BCryptPasswordEncoder().encode(PASSWORD))

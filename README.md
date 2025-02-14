@@ -7,7 +7,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=develop&project=es.upm.miw%3Abetca-tpv-user&metric=alert_status)](https://sonarcloud.io/dashboard?id=es.upm.miw%3Abetca-tpv-user&branch=develop)
 
 ## Tecnologías necesarias
-`Java` `Maven` `GitHub` `Spring-boot` `Sonarcloud` `Docker` `PostgreSQL` `Render` 
+`Java` `Maven` `GitHub` `Spring-boot` `Sonarcloud` `PostgreSQL` `Docker` `Render` 
 
 ## :gear: Ejecución en local
 1. Arrancar Docker Desktop
@@ -15,7 +15,7 @@
 
 * Cliente Web (OpenAPI): `http://localhost:8081/swagger-ui.html`
 * Ver los logs (con -f se queda escuchando, Ctrl+C para salir): `docker logs [-f] user-api`
-* Para parar: `docker compose stop`
+* Para parar: `docker compose stop`, aunque resulta mas práctico manejar los contenedores desde _Docker Desktop_
 * Arrancar la consola de PostgreSQL sobre la BD: `docker exec -it postgres-db psql -U postgres -d tpv`
 
 ## :book: Documentación del proyecto

@@ -9,8 +9,4 @@ public enum Role {
         return Role.valueOf(withPrefix.replace(Role.PREFIX, ""));
     }
 
-    public String withPrefix() {
-        return PREFIX + this;
-    }
-
 }
