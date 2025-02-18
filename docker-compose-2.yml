@@ -1,0 +1,20 @@
+# Monta solo el API y reutiliza el contenedor de bases de datos
+services:
+  app:
+    build: .
+    container_name: user-api
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      # host.docker.internal: ruta al localhost de la máquina anfitriona
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/tpv
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+    external: true
+
+
+
