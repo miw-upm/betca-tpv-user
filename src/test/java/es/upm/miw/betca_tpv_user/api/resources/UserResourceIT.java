@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 import static es.upm.miw.betca_tpv_user.api.resources.UserResource.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -162,4 +164,25 @@ class UserResourceIT {
                 .value(users -> assertTrue(users.stream().anyMatch(user -> "c1".equals(user.getFirstName()))));
     }
 
+    @Test
+    void testFindUsersNotInList() {
+        List<String> userMobiles = List.of("666666000", "666666001");
+
+        this.restClientTestService.loginAdmin(this.webTestClient)
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(USERS + "/not-in-list")
+                        .queryParam("userMobiles", String.join(",", userMobiles))
+                        .build())
+                .exchange().expectStatus().isOk()
+                .expectBodyList(UserDto.class)
+                .value(users -> {
+                    assertTrue(users.stream().noneMatch(user -> userMobiles.contains(user.getMobile())));
+                    assertTrue(users.stream().anyMatch(user -> user.getMobile().equals("666666002")));
+                    assertTrue(users.stream().anyMatch(user -> user.getMobile().equals("666666003")));
+                    assertTrue(users.stream().anyMatch(user -> user.getMobile().equals("666666004")));
+                    assertTrue(users.stream().anyMatch(user -> user.getMobile().equals("666666005")));
+                    assertTrue(users.stream().anyMatch(user -> user.getMobile().equals("66")));
+                });
+    }
 }

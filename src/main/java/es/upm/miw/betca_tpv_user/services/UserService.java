@@ -73,4 +73,9 @@ public class UserService {
         return this.userRepository.findByMobile(mobile)
                 .orElseThrow(() -> new NotFoundException("The mobile don't exist: " + mobile));
     }
+
+    public Stream<User> findUsersNotInList(List<String> userMobiles) {
+        return userRepository.findAll().stream()
+                .filter(user -> !userMobiles.contains(user.getMobile()));
+    }
 }
