@@ -76,6 +76,13 @@ public class UserResource {
         ).map(UserDto::ofMobileFirstName);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping("/not-in-list")
+    public Stream<UserDto> findUsersNotInList(@RequestParam List<String> userMobiles) {
+        return this.userService.findUsersNotInList(userMobiles)
+                .map(UserDto::ofMobileFirstName);
+    }
+
     private Role extractRoleClaims() {
         List<String> roleClaims = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).toList();
