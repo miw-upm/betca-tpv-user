@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Log4j2
-@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('OPERATOR')")
+@PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUSTOMER','OPERATOR')")
 @RestController
 @RequestMapping(UserResource.USERS)
 public class UserResource {
@@ -43,7 +43,7 @@ public class UserResource {
         log.debug(token::toString);
         return token;
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','OPERATOR')")
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public void createUser(@Valid @RequestBody UserDto creationUserDto) {
@@ -51,18 +51,19 @@ public class UserResource {
     }
 
     @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','OPERATOR') or #mobile == authentication.principal")
     @GetMapping(MOBILE_ID)
     public UserDto readUser(@PathVariable String mobile) {
         return new UserDto(this.userService.findByMobileAssured(mobile));
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','OPERATOR')")
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping
     public Stream<UserDto> readAll() {
         return this.userService.readAll(this.extractRoleClaims())
                 .map(UserDto::ofMobileFirstName);
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','OPERATOR')")
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping(value = SEARCH)
     public Stream<UserDto> findByMobileAndFirstNameAndFamilyNameAndEmailAndDniContainingNullSafe(
@@ -75,7 +76,7 @@ public class UserResource {
                 mobile, firstName, familyName, email, dni, this.extractRoleClaims()
         ).map(UserDto::ofMobileFirstName);
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','OPERATOR')")
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/not-in-list")
     public Stream<UserDto> findUsersNotInList(@RequestParam List<String> userMobiles) {
