@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Log4j2
-@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('OPERATOR')")
+@PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUSTOMER','OPERATOR')")
 @RestController
 @RequestMapping(UserResource.USERS)
 public class UserResource {
@@ -51,6 +51,7 @@ public class UserResource {
     }
 
     @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','CUSTOMER','OPERATOR') or #mobile == authentication.principal")
     @GetMapping(MOBILE_ID)
     public UserDto readUser(@PathVariable String mobile) {
         return new UserDto(this.userService.findByMobileAssured(mobile));
